@@ -1,0 +1,240 @@
+@media print {
+  @page {
+    size: A4 potrait;
+    page-break-inside: avoid;
+    page-break-after: always;
+  }
+}
+
+.r-body {
+  width: 100%;
+  height: 100%;
+}
+
+.r-flex {
+  display: flex;
+}
+
+.r-justify-content-between {
+  justify-content: space-between;
+}
+
+.r-underline {
+  text-decoration: underline;
+}
+
+.r-uppercase {
+  text-transform: uppercase;
+}
+
+.r-12 {
+  font-size: 12px;
+}
+
+.r-13 {
+  font-size: 13px;
+}
+
+.r-m-10 {
+  margin-top: 10px;
+}
+
+.r-border-1 {
+  border: 1px solid #8a8a8a;
+}
+
+.r-header {
+  border-radius: 8px;
+  width: 49%;
+  padding-top: 8px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+/* TABLE INVOICE */
+.r-barangs table {
+  width: 100%;
+  font-size: 12px;
+}
+.r-barangs table thead .head-barang {
+  border: 1px solid #8a8a8a;
+  font-family: "Times New Roman", Times, serif;
+  text-align: center;
+}
+.r-barangs table thead .head-barang th:nth-child(1) {
+  border-right: 1px solid #8a8a8a;
+  padding: 5px;
+  width: 300px;
+}
+.r-barangs table thead .head-barang th:nth-child(2) {
+  border-right: 1px solid #8a8a8a;
+  padding: 5px;
+  width: 50px;
+}
+.r-barangs table thead .head-barang th:nth-child(3) {
+  border-right: 1px solid #8a8a8a;
+  padding: 5px;
+  width: 80px;
+}
+.r-barangs table thead .head-barang th:nth-child(4) {
+  border-right: 1px solid #8a8a8a;
+  padding: 5px;
+  width: 80px;
+}
+.r-barangs table thead .head-barang th:nth-child(5) {
+  width: 120px;
+}
+.r-barangs table tbody .body-barang {
+  border: 1px solid #8a8a8a;
+  font-family: "Times New Roman", Times, serif;
+  text-align: center;
+  font-size: 12px;
+}
+.r-barangs table tbody .body-barang td:nth-child(1) {
+  padding: 3px;
+  text-align: left !important;
+}
+.r-barangs table tbody .body-barang td:nth-child(2) {
+  border-right: 1px solid #8a8a8a;
+  padding: 3px;
+  text-align: left !important;
+}
+.r-barangs table tbody .body-barang td:nth-child(3) {
+  border-right: 1px solid #8a8a8a;
+  padding: 3px;
+  text-align: end;
+}
+.r-barangs table tbody .body-barang td:nth-child(4) {
+  border-right: 1px solid #8a8a8a;
+  padding: 3px;
+  text-align: end;
+}
+.r-barangs table tbody .body-barang td:nth-child(5) {
+  border-right: 1px solid #8a8a8a;
+  padding: 3px;
+  text-align: end;
+}
+.r-barangs table tbody .body-barang td:nth-child(6) {
+  padding: 3px;
+  text-align: end;
+}
+/* TABLE */
+
+/* TABLE SURAT JALAN */
+.r-barangs table {
+  width: 100%;
+  font-size: 12px;
+}
+.r-barangs table thead .head-barang-sj {
+  border: 1px solid #8a8a8a;
+  font-family: "Times New Roman", Times, serif;
+  text-align: center;
+}
+.r-barangs table thead .head-barang-sj th:nth-child(1) {
+  border-right: 1px solid #8a8a8a;
+  padding: 5px;
+  width: 300px;
+}
+.r-barangs table thead .head-barang-sj th:nth-child(2) {
+  border-right: 1px solid #8a8a8a;
+  padding: 5px;
+  width: 50px;
+}
+.r-barangs table thead .head-barang-sj th:nth-child(3) {
+  border-right: 1px solid #8a8a8a;
+  padding: 5px;
+  width: 90px;
+}
+.r-barangs table thead .head-barang-sj th:nth-child(4) {
+  border-right: 1px solid #8a8a8a;
+  padding: 5px;
+  width: 90px;
+}
+.r-barangs table thead .head-barang-sj th:nth-child(5) {
+  width: 120px;
+}
+.r-barangs table tbody .body-barang-sj {
+  border: 1px solid #8a8a8a;
+  font-family: "Times New Roman", Times, serif;
+  text-align: center;
+  font-size: 12px;
+}
+.r-barangs table tbody .body-barang-sj td:nth-child(1) {
+  padding: 3px;
+  text-align: left !important;
+}
+.r-barangs table tbody .body-barang-sj td:nth-child(2) {
+  border-right: 1px solid #8a8a8a;
+  padding: 3px;
+  text-align: left !important;
+}
+.r-barangs table tbody .body-barang-sj td:nth-child(3) {
+  border-right: 1px solid #8a8a8a;
+  padding: 3px;
+  text-align: end;
+}
+.r-barangs table tbody .body-barang-sj td:nth-child(4) {
+  border-right: 1px solid #8a8a8a;
+  padding: 3px;
+  text-align: end;
+}
+.r-barangs table tbody .body-barang-sj td:nth-child(5) {
+  border-right: 1px solid #8a8a8a;
+  padding: 3px;
+  text-align: end;
+}
+.r-barangs table tbody .body-barang-sj td:nth-child(6) {
+  padding: 3px;
+  text-align: end;
+}
+/* TABLE */
+
+/* PAYMENT */
+.r-body-payment div:nth-child(1) {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  padding-left: 5px;
+}
+.r-body-payment div:nth-child(1) p:nth-child(2) {
+  margin-top: -20px;
+}
+.r-body-payment div:nth-child(1) p:nth-child(3) {
+  margin-top: -20px;
+}
+.r-body-payment div:nth-child(2) table {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 12px;
+}
+.r-body-payment div:nth-child(2) table tr .r-td1 {
+  width: 120px;
+}
+.r-body-payment div:nth-child(2) table tr .r-td2 {
+  border-left: 1px solid #8a8a8a;
+  border-right: 1px solid #8a8a8a;
+  border-bottom: 1px solid #8a8a8a;
+  text-align: end;
+  width: 120px;
+  padding: 3px;
+}
+/* PAYMENT */
+
+/* NOTES */
+.r-footer ol {
+  font-size: 10px;
+  padding-left: 8px;
+}
+
+.r-footer div:nth-child(1) {
+  width: 60%;
+}
+.r-footer div:nth-child(2) {
+  width: 40%;
+  text-align: center;
+  align-items: center;
+}
+
+.r-footer div:nth-child(2) p:nth-child(1) {
+  margin-bottom: 45px !important;
+}
+/* NOTES */
