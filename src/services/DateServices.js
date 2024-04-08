@@ -19,3 +19,31 @@ Vue.filter("formatDt2", function (value) {
     return moment(value).format("DD/MM/Y");
   }
 });
+Vue.filter("formatDt3", function (value) {
+  if (
+    value === "0000-00-00" ||
+    value === null ||
+    value === "none" ||
+    value === "0000-00-00 00:00:00" ||
+    value === "-" ||
+    value === ""
+  ) {
+    return "-";
+  } else {
+    return moment(value).format("DD-MM-Y");
+  }
+});
+Vue.filter("formatDt4", function (value) {
+  if (
+    value === "0000-00-00" ||
+    value === null ||
+    value === "none" ||
+    value === "0000-00-00 00:00:00" ||
+    value === "-" ||
+    value === ""
+  ) {
+    return "-";
+  } else {
+    return moment(value).format("DD/MM/Y HH:mm:ss");
+  }
+});

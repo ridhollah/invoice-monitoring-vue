@@ -178,22 +178,6 @@
                     class="dropdown-menu"
                     aria-labelledby="dropdownMenuButton1"
                   >
-                    <!-- <li>
-                      <a
-                        type="button"
-                        class="btn btn-primary btn-sm dropdown-item"
-                        data-bs-toggle="modal"
-                        data-bs-target="#exampleModal"
-                        @click="
-                          $store.dispatch(
-                            'transaksiReceipt/showReceiptDetail',
-                            n
-                          )
-                        "
-                        ><i class="fa fa-align-left me-2" aria-hidden="true"></i
-                        >Detail</a
-                      >
-                    </li> -->
                     <li v-if="n && n.status != 1">
                       <a
                         class="btn btn-primary btn-sm dropdown-item"
@@ -212,7 +196,7 @@
                         >Cetak Invoice</a
                       >
                     </li>
-                    <li v-if="n.statusj == 3 || n.statusj == 2">
+                    <li v-if="n.statusj == 3">
                       <a
                         class="btn btn-success btn-sm dropdown-item"
                         data-bs-toggle="modal"
@@ -223,17 +207,6 @@
                         >Cetak Surat Jalan</a
                       >
                     </li>
-                    <!-- <li>
-                      <a
-                        class="btn btn-success btn-sm dropdown-item"
-                        data-bs-toggle="modal"
-                        data-bs-target="#suratjalanCetak"
-                        @click="cetakShipping(n)"
-                        href=""
-                        ><i class="fa fa-file-o me-2" aria-hidden="true"></i
-                        >Cetak Surat Jalan
-                      </a>
-                    </li> -->
                   </ul>
                 </div>
               </td>
@@ -263,7 +236,7 @@ export default {
       let params = {
         Receipt: n.receipt,
       };
-      this.$store.dispatch("invoicePrint/createSuratJalanByReceipt", n);
+      this.$store.dispatch("invoicePrint/createNoShipping", n);
       this.$store.dispatch("invoicePrint/showPrintShipping", params);
     },
     pelunasan(n) {

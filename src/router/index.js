@@ -11,11 +11,11 @@ import InstallmentView from "../views/Installment/InstallmentView.vue";
 import InstallmentTrxView from "../views/Installment/InstallmentTrxView.vue";
 import Preview from "../views/Printing/Preview.vue";
 import DataTransaksiReceipt from "../views/TransaksiReceipt/TransaksiReceiptView.vue";
-import DataTransaksiCicilanDp from "../views/TransaksiCicilanDp/TransaksiCicilanDpView.vue";
-import SuratJalanView from "../views/SuratJalan/SuratJalanView.vue";
 import LaporanTransaksiView from "@/views/Laporan/LaporanTransaksi/LaporanTransaksiView.vue";
 import LaporanPembayaranView from "@/views/Laporan/LaporanPembayaran/LaporanPembayaranView.vue";
 import LaporanBarangView from "@/views/Laporan/LaporanBarang/LaporanBarangView.vue";
+import LaporanSalesView from "@/views/Laporan/LaporanSalesPerson/LaporanSalesView";
+import LaporanKasirView from "@/views/Laporan/LaporanKasir/LaporanKasirView";
 import Logistik from "@/views/Logistik/LogistikView.vue";
 import RegistrasiUserView from "@/views/Setup/RegistrasiUser/RegistrasiUserView.vue";
 import DaftarUser from "@/views/Setup/DaftarUser/DaftarUserView.vue";
@@ -81,16 +81,6 @@ const routes = [
         component: DataTransaksiReceipt,
       },
       {
-        path: "/data-transaksi-cicilan-dp",
-        name: "data-transaksi-cicilan-dp",
-        component: DataTransaksiCicilanDp,
-      },
-      {
-        path: "/data-surat-jalan",
-        name: "data-surat-jalan",
-        component: SuratJalanView,
-      },
-      {
         path: "/laporan-receipt",
         name: "laporan-receipt",
         component: LaporanTransaksiView,
@@ -104,6 +94,16 @@ const routes = [
         path: "/laporan-barang",
         name: "laporan-barang",
         component: LaporanBarangView,
+      },
+      {
+        path: "/laporan-sales",
+        name: "laporan-sales",
+        component: LaporanSalesView,
+      },
+      {
+        path: "/laporan-kasir",
+        name: "laporan-kasir",
+        component: LaporanKasirView,
       },
       {
         path: "/logistik",

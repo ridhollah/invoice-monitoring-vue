@@ -88,8 +88,10 @@ export default {
         '<html lang="en"><head><title>Print Image Maintenance</title>'
       );
       frameDoc.document.write(
-        '<link rel="stylesheet" href="http://172.27.1.31:8080/css/invoice.css"/>',
-        '<link rel="stylesheet" href="http://172.27.1.31:8080/css/bootstrap.css"/>'
+        // '<link rel="stylesheet" href="http://172.27.1.31:8080/css/invoice.css"/>',
+        // '<link rel="stylesheet" href="http://172.27.1.31:8080/css/bootstrap.css"/>'
+        '<link rel="stylesheet" href="http://dp.suzuya.co.id//css/invoice.css"/>',
+        '<link rel="stylesheet" href="http://dp.suzuya.co.id//css/bootstrap.css"/>'
       );
       frameDoc.document.write("</head><body>");
       frameDoc.document.write(contents.outerHTML);
@@ -119,8 +121,10 @@ export default {
         '<html lang="en"><head><title>Print Image Maintenance</title>'
       );
       frameDoc.document.write(
-        '<link rel="stylesheet" href="http://172.27.1.31:8080/css/invoice.css"/>',
-        '<link rel="stylesheet" href="http://172.27.1.31:8080/css/bootstrap.css"/>'
+        // '<link rel="stylesheet" href="http://172.27.1.31:8080/css/invoice.css"/>',
+        // '<link rel="stylesheet" href="http://172.27.1.31:8080/css/bootstrap.css"/>'
+        '<link rel="stylesheet" href="http://dp.suzuya.co.id//css/invoice.css"/>',
+        '<link rel="stylesheet" href="http://dp.suzuya.co.id//css/bootstrap.css"/>'
       );
       frameDoc.document.write("</head><body>");
       frameDoc.document.write(contents.outerHTML);

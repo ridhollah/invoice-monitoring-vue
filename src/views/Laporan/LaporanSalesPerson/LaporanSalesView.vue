@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-body">
-      <h5 class="fw-bold text-uppercase">Laporan Barang Terjual</h5>
+      <h5 class="fw-bold text-uppercase">Laporan Penjualan Sales</h5>
       <div class="divider"></div>
       <div class="d-flex align-items-end justify-content-between">
         <div class="d-flex align-items-end">
@@ -28,14 +28,14 @@
           <button
             type="button"
             class="btn btn-primary btn-sm me-1"
-            @click="$store.dispatch('laporanBarang/Laporan')"
+            @click="$store.dispatch('laporanSales/showLaporan')"
           >
             <i class="fa fa-search" aria-hidden="true"></i>
           </button>
           <button
             type="button"
             class="btn btn-secondary btn-sm me-1"
-            @click="$store.dispatch('laporanBarang/resetLaporan')"
+            @click="$store.dispatch('laporanSales/resetLaporan')"
           >
             <i class="fa fa-refresh" aria-hidden="true"></i>
           </button>
@@ -63,17 +63,23 @@
         <table class="table table-hover table-striped table-bordered">
           <thead>
             <tr class="text-center">
-              <th style="width: 10%">Tanggal Terjual</th>
-              <th style="width: 50%" colspan="2">Nama</th>
+              <th style="width: 5%">Kode</th>
+              <th style="width: 15%">Nama</th>
+              <th style="width: 15%">Posisi</th>
+              <th style="width: 45%" colspan="2">Barang</th>
               <th style="width: 5%">Quantity</th>
+              <th style="width: 15%">Total Penjualan</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(n, index) in datas" :key="index">
-              <td class="text-center">{{ n.Date }}</td>
-              <td class="text-center">{{ n.Internal }}</td>
+              <td>{{ n.User }}</td>
+              <td>{{ n.Name }}</td>
+              <td>{{ n.Position }}</td>
+              <td>{{ n.Internal }}</td>
               <td>{{ n.Descript }}</td>
-              <td class="text-center">{{ n.total_quantity }}</td>
+              <td class="text-center">{{ n.sumqty }}</td>
+              <td>{{ n.netsales | Rupiah }}</td>
             </tr>
           </tbody>
         </table>
@@ -82,25 +88,34 @@
         <div class="mt-2" ref="cetak">
           <div style="text-align: center">
             <h5 style="text-transform: uppercase; text-decoration: underline">
-              Laporan Barang Terjual
+              Laporan Penjualan Sales
             </h5>
             <p style="font-size: 12px; margin-top: 5px">
               Dari : {{ search.tglawal }} - Ke :
               {{ search.tglakhir }}
             </p>
           </div>
+
           <table class="table table-bordered" style="font-size: 12px">
             <thead>
               <tr class="text-center">
-                <th style="width: 15%" colspan="2">Nama</th>
+                <th style="width: 5%">Kode</th>
+                <th style="width: 15%">Nama</th>
+                <th style="width: 15%">Posisi</th>
+                <th style="width: 45%" colspan="2">Barang</th>
                 <th style="width: 5%">Quantity</th>
+                <th style="width: 15%">Total Penjualan</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(n, index) in datas" :key="index">
-                <td class="text-center">{{ n.Internal }}</td>
+                <td>{{ n.User }}</td>
+                <td>{{ n.Name }}</td>
+                <td>{{ n.Position }}</td>
+                <td>{{ n.Internal }}</td>
                 <td>{{ n.Descript }}</td>
-                <td class="text-center">{{ n.total_quantity }}</td>
+                <td class="text-center">{{ n.sumqty }}</td>
+                <td>{{ n.netsales | Rupiah }}</td>
               </tr>
             </tbody>
           </table>
@@ -111,22 +126,16 @@
 </template>
 <script>
 export default {
-  name: "LaporanBarangView",
-  data() {
-    return {
-      show: false,
-    };
-  },
   computed: {
     datas() {
-      return this.$store.state.laporanBarang.datas;
+      return this.$store.state.laporanSales.datas;
     },
     search: {
       get() {
-        return this.$store.state.laporanBarang.search;
+        return this.$store.state.laporanSales.search;
       },
       set(value) {
-        return this.$store.commit("laporanBarang/setSearch", value);
+        return this.$store.commit("laporanSales/setSearch", value);
       },
     },
   },
@@ -165,14 +174,30 @@ export default {
     },
     exportExcel() {
       import("@/services/Export2Excel").then((excel) => {
-        const header = ["Tanggal", "Internal", "Descript", "Total Quantity"];
-        const field = ["Date", "Internal", "Descript", "total_quantity"];
+        const header = [
+          "Kode Sales",
+          "Nama Sales",
+          "Posisi",
+          "Internal",
+          "Nama Barang",
+          "Quantity",
+          "Total Penjualan",
+        ];
+        const field = [
+          "User",
+          "Name",
+          "Position",
+          "Internal",
+          "Descript",
+          "sumqty",
+          "netsales",
+        ];
         const data = this.formatJson(field, this.datas);
         excel.export_json_to_excel({
           header: header,
           data: data,
-          sheetName: `LAPORAN BARANG TERJUAL`,
-          filename: `LAPORAN BARANG TERJUAL ${this.search.tglawal} - ${this.search.tglakhir}`,
+          sheetName: `LAPORAN PENJUALAN SALES`,
+          filename: `LAPORAN PENJUALAN SALES ${this.search.tglawal} - ${this.search.tglakhir}`,
           autoWidth: true,
           bookType: "xlsx",
         });

@@ -1,11 +1,10 @@
 import axios from "axios";
-
+import moment from "moment";
 export default {
   namespaced: true,
   state: {
     search: {
-      count: 10,
-      status: 0,
+      tglawal: moment().format("YYYY-MM-D"),
     },
     datas: [],
   },
@@ -14,24 +13,23 @@ export default {
       state.search = value;
     },
     setDatas(state, value) {
-      state.datas = value;
+      state.datas = value.data;
     },
   },
   actions: {
-    resetSearchCicilanDp({ state, dispatch }) {
+    resetLaporan({ state, dispatch }) {
       state.search = {
-        count: 10,
-        status: 0,
+        tglawal: moment().format("YYYY-MM-D"),
       };
-      dispatch("showCicilanDp");
+      dispatch("showLaporan");
     },
-    showCicilanDp({ commit, state, dispatch }) {
+    showLaporan({ commit, state, dispatch }) {
       commit("alert/setLoading", true, { root: true });
       axios
-        .post("transaksi/transaksi-data-cicilan-dp", state.search)
+        .post("report/sales", state.search)
         .then((res) => {
           commit("alert/setLoading", false, { root: true });
-          commit("setDatas", res.data.data);
+          commit("setDatas", res.data);
         })
         .catch((err) => {
           commit("alert/setLoading", false, { root: true });

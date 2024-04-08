@@ -270,10 +270,17 @@
                   </div> -->
                   <div
                     class="d-lg-flex justify-content-between mt-2"
-                    v-if="price.ttldisc > 0"
+                    v-if="price.ttldisc && price.ttldisc > 0"
                   >
                     <label class="label font-monospace">Jumlah Diskon</label>
                     <p class="fw-bold r-12">{{ price.ttldisc | Rupiah }}</p>
+                  </div>
+                  <div
+                    class="d-lg-flex justify-content-between mt-2"
+                    v-if="price.discamtfr && price.discamtfr > 0"
+                  >
+                    <label class="label font-monospace">Jumlah Diskon</label>
+                    <p class="fw-bold r-12">{{ price.discamtfr | Rupiah }}</p>
                   </div>
                   <div
                     class="d-lg-flex justify-content-between mt-2"

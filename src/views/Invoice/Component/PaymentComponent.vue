@@ -13,10 +13,14 @@
             <td>Sub Total</td>
             <td>{{ header.TtlSales ? header.TtlSales : "" | Rupiah }}</td>
           </tr> -->
-          <tr v-if="header.TtlDisc && header.TtlDisc > 0">
+          <tr v-if="header.DiscAmtFr && header.DiscAmtFr > 0">
+            <td>Diskon Khusus</td>
+            <td>{{ header.DiscAmtFr ? header.DiscAmtFr : "" | Rupiah }}</td>
+          </tr>
+          <!-- <tr v-if="header.TtlDisc && header.TtlDisc > 0">
             <td>Diskon Khusus</td>
             <td>{{ header.TtlDisc ? header.TtlDisc : "" | Rupiah }}</td>
-          </tr>
+          </tr> -->
           <tr v-if="header.biayakirim && header.biayakirim > 0">
             <td>Biaya Pengiriman</td>
             <td>{{ header.biayakirim ? header.biayakirim : "" | Rupiah }}</td>
@@ -40,7 +44,7 @@
             </td>
           </tr>
           <tr v-if="header.ttlbayar && header.ttlbayar > 0">
-            <td>Pembayaran I</td>
+            <td>Pembayaran</td>
             <td>{{ header.ttlbayar ? header.ttlbayar : "" | Rupiah }}</td>
           </tr>
           <tr v-if="header.ttlsisa && header.ttlsisa > 0">

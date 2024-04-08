@@ -75,10 +75,14 @@
               <td class="r-td1">Sub Total</td>
               <td class="r-td2">{{ header.ttlprice | Rupiah2 }}</td>
             </tr> -->
-            <tr v-show="header.ttldisc && header.ttldisc > 0">
+            <tr v-show="header.discamtfr && header.discamtfr > 0">
+              <td>Nilai Diskon Khusus</td>
+              <td class="r-td2">{{ header.discamtfr | Rupiah2 }}</td>
+            </tr>
+            <!-- <tr v-show="header.ttldisc && header.ttldisc > 0">
               <td>Nilai Diskon Khusus</td>
               <td class="r-td2">{{ header.ttldisc | Rupiah2 }}</td>
-            </tr>
+            </tr> -->
             <tr v-show="header.ttldeliv && header.ttldeliv > 0">
               <td>Biaya Pengiriman</td>
               <td class="r-td2">{{ header.ttldeliv | Rupiah2 }}</td>
@@ -87,12 +91,20 @@
               <td>Biaya Pemasangan</td>
               <td class="r-td2">{{ header.ttlinstall | Rupiah2 }}</td>
             </tr>
+            <tr v-show="header.ttldivan && header.ttldivan > 0">
+              <td>Biaya Divan Belah</td>
+              <td class="r-td2">{{ header.ttldivan | Rupiah2 }}</td>
+            </tr>
+            <tr v-show="header.ttlother && header.ttlother > 0">
+              <td>Biaya lain-lain</td>
+              <td class="r-td2">{{ header.ttlother | Rupiah2 }}</td>
+            </tr>
             <tr>
               <td>Total Transaksi</td>
               <td class="r-td2">{{ header.ttlsales | Rupiah2 }}</td>
             </tr>
             <tr v-show="payment.term1 && payment.term1 > 0">
-              <td>Pembayaran I</td>
+              <td>Pembayaran</td>
               <td class="r-td2">{{ payment.term1 | Rupiah2 }}</td>
             </tr>
             <tr v-show="payment.term2 && payment.term2 > 0">

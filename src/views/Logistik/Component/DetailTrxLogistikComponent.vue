@@ -10,7 +10,7 @@
     <div class="modal-dialog" style="max-width: 60%">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="logistikLabel">Modal title</h5>
+          <h5 class="modal-title" id="logistikLabel">Modal</h5>
           <button
             class="btn btn-secondary btn-sm"
             data-bs-dismiss="modal"
@@ -54,10 +54,10 @@
             <table class="table table-hover table-striped table-bordered">
               <thead>
                 <tr class="text-center">
-                  <th style="width: 70%" colspan="2">Nama Barang</th>
-                  <th style="width: 15%">Quantity</th>
-                  <th style="width: 15%">Checked</th>
-                  <th style="width: 15%">Keterangan</th>
+                  <th style="width: 50%" colspan="2">Nama Barang</th>
+                  <th style="width: 5%">Quantity</th>
+                  <th style="width: 10%">Checked</th>
+                  <th style="width: 35%">Keterangan</th>
                 </tr>
               </thead>
               <tbody>
@@ -93,7 +93,17 @@
                       style="margin: 0; font-size: 20px; border: 1px solid red"
                     />
                   </td>
-                  <td>{{ n.desc }}</td>
+
+                  <td v-if="n.statusqc == 2">
+                    <input
+                      style="font-size: 13px"
+                      type="text"
+                      class="form-control"
+                      id="exampleFormControlInput1"
+                      v-model="n.desc"
+                    />
+                  </td>
+                  <td v-else>{{ n.desc }}</td>
                 </tr>
               </tbody>
             </table>

@@ -5,31 +5,6 @@
       <div class="divider"></div>
       <div class="d-flex align-items-end justify-content-between">
         <div class="d-flex align-items-end">
-          <!-- <div class="form-group me-1">
-            <label for="exampleFormControlInput30">Pencarian</label>
-            <input
-              style="font-size: 13px"
-              type="text"
-              class="form-control"
-              id="exampleFormControlInput30"
-              placeholder="No Transaksi / Member"
-              v-model="search.search"
-            />
-          </div> -->
-          <!-- <div class="form-group me-1">
-            <label for="exampleFormControlInput30">Lihat</label>
-            <select
-              style="font-size: 13px"
-              class="form-select"
-              aria-label="Default select example"
-              v-model="search.count"
-            >
-              <option value="10">10</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-              <option value="0">Semua</option>
-            </select>
-          </div> -->
           <div class="form-group me-1">
             <label for="exampleFormControlInput30">Status</label>
             <select
@@ -82,9 +57,17 @@
           <button
             type="button"
             class="btn btn-secondary btn-sm me-1"
+            @click="exportExcel"
+          >
+            <i class="fa fa-files-o icon" aria-hidden="true"></i>
+            Simpan Excel
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary btn-sm me-1"
             @click="print"
           >
-            <i class="fa fa-refresh" aria-hidden="true"></i>
+            <i class="fa fa-file-o icon" aria-hidden="true"></i>
             Cetak
           </button>
         </div>
@@ -181,9 +164,6 @@ export default {
       },
     },
   },
-  created() {
-    this.$store.dispatch("laporanTransaksi/laporanTransaksi");
-  },
   methods: {
     print() {
       var contents = this.$refs.cetak;
@@ -203,7 +183,8 @@ export default {
       );
       frameDoc.document.write(
         // '<link rel="stylesheet" href="http://172.27.1.31:8080/css/invoice.css"/>',
-        '<link rel="stylesheet" href="http://172.27.1.31:8080/css/bootstrap.css"/>'
+        // '<link rel="stylesheet" href="http://172.27.1.31:8080/css/bootstrap.css"/>'
+        '<link rel="stylesheet" href="http://dp.suzuya.co.id/css/bootstrap.css"/>'
       );
       frameDoc.document.write("</head><body>");
       frameDoc.document.write(contents.outerHTML);
@@ -215,6 +196,46 @@ export default {
         document.body.removeChild(frame1);
       }, 500);
       return false;
+    },
+    exportExcel() {
+      import("@/services/Export2Excel").then((excel) => {
+        const header = [
+          "Tanggal",
+          "No Transaksi",
+          "Total Transaksi",
+          "Total Bayar",
+          "Total Sisa",
+          "Customer",
+          "No Surat Jalan",
+          "Status",
+        ];
+        const field = [
+          "tgl",
+          "receipt",
+          "ttlsales",
+          "ttlbayar",
+          "ttlsisa",
+          "name",
+          "noshipping",
+          "statusname",
+        ];
+        const data = this.formatJson(field, this.datas);
+        excel.export_json_to_excel({
+          header: header,
+          data: data,
+          sheetName: `LAPORAN TRANSAKSI RECEIPT`,
+          filename: `LAPORAN TRANSAKSI RECEIPT ${this.search.tglawal} - ${this.search.tglakhir}`,
+          autoWidth: true,
+          bookType: "xlsx",
+        });
+      });
+    },
+    formatJson(filterData, jsonData) {
+      return jsonData.map((v) =>
+        filterData.map((j) => {
+          return v[j];
+        })
+      );
     },
   },
 };

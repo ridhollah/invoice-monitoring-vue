@@ -3,7 +3,7 @@
     <div class="r-flex r-justify-content-between">
       <h5 class="r-underline r-uppercase">Surat Jalan</h5>
       <p class="r-12">
-        Kasir By {{ $store.state.authentication.user.namalengkap }}
+        Print By {{ $store.state.authentication.user.namalengkap }}
       </p>
     </div>
     <div style="margin-top: -5px" class="r-flex r-justify-content-between r-12">

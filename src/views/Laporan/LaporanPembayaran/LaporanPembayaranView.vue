@@ -41,12 +41,28 @@
           </button>
         </div>
         <div class="text-end">
+          <!-- <button type="button" class="btn btn-secondary btn-sm me-1">
+            <i class="fa fa-refresh" aria-hidden="true"></i>
+            PDF
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm me-1">
+            <i class="fa fa-refresh" aria-hidden="true"></i>
+            SCV
+          </button> -->
+          <button
+            type="button"
+            class="btn btn-secondary btn-sm me-1"
+            @click="exportExcel"
+          >
+            <i class="fa fa-files-o icon" aria-hidden="true"></i>
+            Simpan Excel
+          </button>
           <button
             type="button"
             class="btn btn-secondary btn-sm me-1"
             @click="print"
           >
-            <i class="fa fa-refresh" aria-hidden="true"></i>
+            <i class="fa fa-file-o icon" aria-hidden="true"></i>
             Cetak
           </button>
         </div>
@@ -136,9 +152,6 @@ export default {
       },
     },
   },
-  created() {
-    this.$store.dispatch("laporanPembayaran/LaporanPembayaran");
-  },
   methods: {
     print() {
       var contents = this.$refs.cetak;
@@ -158,7 +171,8 @@ export default {
       );
       frameDoc.document.write(
         // '<link rel="stylesheet" href="http://172.27.1.31:8080/css/invoice.css"/>',
-        '<link rel="stylesheet" href="http://172.27.1.31:8080/css/bootstrap.css"/>'
+        // '<link rel="stylesheet" href="http://172.27.1.31:8080/css/bootstrap.css"/>'
+        '<link rel="stylesheet" href="http://dp.suzuya.co.id/css/bootstrap.css"/>'
       );
       frameDoc.document.write("</head><body>");
       frameDoc.document.write(contents.outerHTML);
@@ -170,6 +184,42 @@ export default {
         document.body.removeChild(frame1);
       }, 500);
       return false;
+    },
+    exportExcel() {
+      import("@/services/Export2Excel").then((excel) => {
+        const header = [
+          "Tanggal",
+          "No Transaksi",
+          "Tender Type",
+          "Nama Kartu",
+          "No Voucher",
+          "Nominal",
+        ];
+        const field = [
+          "tgl",
+          "receipt",
+          "tendername",
+          "namecard",
+          "nodocument",
+          "ttlbayar",
+        ];
+        const data = this.formatJson(field, this.datas);
+        excel.export_json_to_excel({
+          header: header,
+          data: data,
+          sheetName: `LAPORAN TRANSAKSI`,
+          filename: `LAPORAN TRANSAKSI ${this.search.tglawal} - ${this.search.tglakhir}`,
+          autoWidth: true,
+          bookType: "xlsx",
+        });
+      });
+    },
+    formatJson(filterData, jsonData) {
+      return jsonData.map((v) =>
+        filterData.map((j) => {
+          return v[j];
+        })
+      );
     },
   },
 };
