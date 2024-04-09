@@ -2,7 +2,7 @@
   <div>
     <div class="card">
       <div class="card-body">
-        <h5 class="fw-bold text-uppercase">Pembuatan Invoice Baru</h5>
+        <h5 class="fw-500 text-uppercase">Pembuatan Invoice Baru</h5>
         <div class="divider"></div>
         <div class="d-flex justify-content-between">
           <div class="d-lg-flex align-items-end">

@@ -9,6 +9,7 @@ import sidebar from "./modules/sidebar";
 import authentication from "../views/Authentication/modules/autentication";
 import registrasiUser from "../views/Setup/RegistrasiUser/modules/RegistrasiUser";
 import daftarUser from "../views/Setup/DaftarUser/modules/DaftarUser";
+import roleUser from "../views/Setup/RoleUser/modules/RoleUser";
 
 // BUAT INVOICE DAN TRX CICILAN
 import invoice from "../views/Invoice/modules/invoice";
@@ -50,5 +51,6 @@ export default new Vuex.Store({
     laporanTransaksi,
     laporanPembayaran,
     laporanSales,
+    roleUser,
   },
 });

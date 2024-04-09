@@ -19,6 +19,7 @@ import LaporanKasirView from "@/views/Laporan/LaporanKasir/LaporanKasirView";
 import Logistik from "@/views/Logistik/LogistikView.vue";
 import RegistrasiUserView from "@/views/Setup/RegistrasiUser/RegistrasiUserView.vue";
 import DaftarUser from "@/views/Setup/DaftarUser/DaftarUserView.vue";
+import RoleUserView from "@/views/Setup/RoleUser/RoleUserView.vue";
 
 Vue.use(VueRouter);
 
@@ -119,6 +120,11 @@ const routes = [
         path: "/daftar-user",
         name: "daftar-user",
         component: DaftarUser,
+      },
+      {
+        path: "/role-user",
+        name: "role-user",
+        component: RoleUserView,
       },
     ],
   },

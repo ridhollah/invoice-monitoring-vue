@@ -2,7 +2,7 @@
   <div>
     <div class="card">
       <div class="card-body">
-        <h5 class="fw-bold text-uppercase">
+        <h5 class="fw-500 text-uppercase">
           Pembayaran Ke {{ header.cicilan }}
         </h5>
         <div class="divider"></div>

@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-body">
-      <h5 class="fw-bold text-uppercase">Laporan Transaksi</h5>
+      <h5 class="fw-500 text-uppercase">Laporan Transaksi</h5>
       <div class="divider"></div>
       <div class="d-flex align-items-end justify-content-between">
         <div class="d-flex align-items-end">

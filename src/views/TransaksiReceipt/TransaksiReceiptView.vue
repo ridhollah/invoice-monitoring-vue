@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-body">
-      <h5 class="fw-bold text-uppercase">Data Transaksi Receipt</h5>
+      <h5 class="fw-500 text-uppercase">Data Transaksi Receipt</h5>
       <div class="divider"></div>
       <!-- <div class="d-lg-flex">
         <div class="col-lg-6 p-1">

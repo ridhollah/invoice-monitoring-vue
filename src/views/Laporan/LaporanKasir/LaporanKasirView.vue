@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-body">
-      <h5 class="fw-bold text-uppercase">Laporan Setoran Kasir</h5>
+      <h5 class="fw-500 text-uppercase">Laporan Setoran Kasir</h5>
       <div class="divider"></div>
       <div class="card" style="width: 50%">
         <div class="card-body">

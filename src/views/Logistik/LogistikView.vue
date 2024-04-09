@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-body">
       <div>
-        <h5 class="fw-bold text-uppercase me-3">Logistik</h5>
+        <h5 class="fw-500 text-uppercase me-3">Logistik</h5>
         <!-- <div class="d-lg-flex">
           <button class="btn btn-outline-primary btn-sm me-3">
             Transaksi Masuk
