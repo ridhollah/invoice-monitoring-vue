@@ -88,6 +88,7 @@
               tutup
             </button>
             <button
+              data-bs-dismiss="modal"
               type="button"
               class="btn btn-primary btn-sm"
               @click="$store.dispatch('daftarUser/updateDetailUser')"
