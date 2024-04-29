@@ -51,15 +51,17 @@ export default {
     },
   },
   actions: {
-    resetSearchReceipt({ state, dispatch }) {
+    resetSearchReceipt({ state, dispatch, rootState }) {
       state.search = {
         count: 100,
         status: 0,
+        outlet: rootState.authentication.user.outlet,
       };
       dispatch("showReceipt");
     },
-    showReceipt({ commit, state, dispatch }) {
+    showReceipt({ commit, state, dispatch, rootState }) {
       commit("alert/setLoading", true, { root: true });
+      state.search.outlet = rootState.authentication.user.outlet;
       axios
         .post("transaksi/transaksi-data-receipt", state.search)
         .then((res) => {

@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-body">
-      <h5 class="fw-500 text-uppercase">Laporan Penjualan Sales</h5>
+      <h5 class="fw-500 text-uppercase">Sales By Person</h5>
       <div class="divider"></div>
       <div class="d-flex align-items-end justify-content-between">
         <div class="d-flex align-items-end">
@@ -47,7 +47,7 @@
             @click="exportExcel"
           >
             <i class="fa fa-files-o icon" aria-hidden="true"></i>
-            Simpan Excel
+            Excel
           </button>
           <button
             type="button"

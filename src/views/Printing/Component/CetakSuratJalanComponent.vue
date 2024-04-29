@@ -8,13 +8,15 @@
     </div>
     <div style="margin-top: -5px" class="r-flex r-justify-content-between r-12">
       <div class="r-header r-border-1">
-        <p class="r-uppercase">{{ header.receipt }}</p>
+        <p class="r-uppercase">{{ header.receipt ? header.receipt : "" }}</p>
         <p class="r-uppercase" style="margin-top: -18px">
-          {{ header.outlet_name }}
+          {{ header.outlet_name ? header.outlet_name : "" }}
         </p>
         <p style="margin-top: -18px">
           No.Surat :
-          <span class="r-uppercase">{{ shipping.noshipping }}</span>
+          <span class="r-uppercase">{{
+            header.noshipping ? header.noshipping : ""
+          }}</span>
         </p>
         <div style="display: flex; justify-content: space-between">
           <p style="margin-top: -18px">
@@ -26,12 +28,12 @@
       <div class="r-header r-border-1">
         <p>Kepada Yth,</p>
         <p class="r-uppercase" style="margin-top: -18px">
-          {{ shipping.namalengkap }}
+          {{ header.namalengkap ? header.namalengkap : "" }}
         </p>
         <p class="r-uppercase" style="margin-top: -18px">
-          {{ shipping.address }}
+          {{ header.address ? header.address : "" }}
         </p>
-        <p style="margin-top: -18px">{{ shipping.nohp }}</p>
+        <p style="margin-top: -18px">{{ header.nohp ? header.nohp : "" }}</p>
       </div>
     </div>
     <div class="r-m-10 r-barangs">
@@ -72,6 +74,23 @@
           </tr>
         </tbody>
       </table>
+    </div>
+    <div class="r-body-payment r-flex r-justify-content-between">
+      <div>
+        <!-- <p>Nomor Reserved : j049711</p> -->
+        <!-- <p>Sales : 10 Rixi</p> -->
+        <!-- <p>INHOUSE PROMO - Reprint</p> -->
+      </div>
+      <div>
+        <table>
+          <tbody>
+            <tr>
+              <td>Sisa Pembayaran</td>
+              <td class="r-td2" style="border: 0">0</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <div
@@ -128,9 +147,8 @@ import { mapState } from "vuex";
 export default {
   computed: {
     ...mapState({
-      header: (state) => state.invoicePrint.header,
-      details: (state) => state.invoicePrint.details,
-      shipping: (state) => state.invoicePrint.shipping,
+      header: (state) => state.invoicePrint.shipping.header,
+      details: (state) => state.invoicePrint.shipping.details,
     }),
   },
 };

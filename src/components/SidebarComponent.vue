@@ -3,25 +3,35 @@
     <!-- SIDEBAR -->
     <section id="sidebar">
       <a href="/" class="brand">Invoice Monitoring</a>
-      <div class="d-flex p-2 mt-2">
-        <div class="col-4">
-          <img
-            style="width: 45px; height: 45px; border-radius: 50%"
-            src="../assets/profile.png"
-            alt=""
-          />
-        </div>
-        <div
-          class="col-8"
-          style="font-size: 13px; color: #fff; padding-top: 5px"
-        >
-          <p class="fw-bold mb-1">
-            {{ $store.state.authentication.user.namalengkap }}
-          </p>
-          <p style="font-size: 11px">
-            <i class="fa fa-circle text-success me-2"></i>
-            {{ $store.state.authentication.user.namalevel }}
-          </p>
+      <div class="p-2">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex">
+              <div class="col-3 align-content-center text-center">
+                <img
+                  style="width: 45px; height: 45px; border-radius: 50%"
+                  src="../assets/profile.png"
+                  alt=""
+                />
+              </div>
+              <div
+                class="col-9"
+                style="font-size: 13px; color: #000; padding-top: 5px"
+              >
+                <p class="fw-bold mb-1">
+                  {{ $store.state.authentication.user.namalengkap }}
+                </p>
+                <p style="font-size: 11px">
+                  <i class="fa fa-circle text-success me-2"></i>
+                  {{ $store.state.authentication.user.namalevel }}
+                </p>
+                <p style="font-size: 11px">
+                  <i class="fa fa-building me-2"></i>
+                  {{ $store.state.authentication.user.outlet_name }}
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <ul class="side-menu">
@@ -66,130 +76,6 @@
           </ul>
         </li>
 
-        <!-- <li @click="$store.commit('sidebar/setActive', 1)">
-          <router-link
-            to="/dashboard"
-            :class="[$store.state.sidebar.active == 1 ? 'active' : '']"
-          >
-            <i
-              class="fa fa-tachometer icon"
-              aria-hidden="true"
-              style="color: aquamarine"
-            ></i
-            >Dashboard
-          </router-link>
-        </li> -->
-        <!-- <li @click="$store.commit('sidebar/setActive', 2)">
-          <router-link
-            to="/invoice"
-            :class="[$store.state.sidebar.active == 2 ? 'active' : '']"
-          >
-            <i class="fa fa-file-o icon" style="color: rgb(0, 145, 255)"></i
-            >Buat Invoice
-          </router-link>
-        </li>
-        <li>
-          <a
-            :class="[$store.state.sidebar.active == 4 ? 'active' : '']"
-            @click="$store.commit('sidebar/setActive', 4)"
-          >
-            <i class="fa fa-files-o icon" style="color: rgb(0, 145, 255)"></i
-            >Dokumen<i class="fa fa-angle-right icon-right"></i>
-          </a>
-          <ul
-            class="side-dropdown"
-            :class="[$store.state.sidebar.active == 4 ? 'show' : '']"
-          >
-            <li>
-              <router-link to="/data-transaksi-receipt">
-                <i
-                  class="fa fa-files-o icon"
-                  style="color: rgb(255, 170, 0)"
-                ></i>
-                Receipt
-              </router-link>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <a
-            :class="[$store.state.sidebar.active == 6 ? 'active' : '']"
-            @click="$store.commit('sidebar/setActive', 6)"
-          >
-            <i class="fa fa-files-o icon" style="color: rgb(255, 170, 0)"></i
-            >Piutang Member<i class="fa fa-angle-right icon-right"></i>
-          </a>
-          <ul
-            class="side-dropdown"
-            :class="[$store.state.sidebar.active == 6 ? 'show' : '']"
-          >
-            <li>
-              <router-link to="/member-piutang">
-                <i class="fa fa-plus icon" style="color: rgb(195, 255, 15)"></i
-                >Tambah Piutang
-              </router-link>
-            </li>
-            <li>
-              <router-link to="/daftar-member-piutang">
-                <i
-                  class="fa fa-files-o icon"
-                  style="color: rgb(255, 170, 0)"
-                ></i>
-                Daftar Piutang
-              </router-link>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <a
-            :class="[$store.state.sidebar.active == 8 ? 'active' : '']"
-            @click="$store.commit('sidebar/setActive', 8)"
-          >
-            <i class="fa fa-files-o icon" style="color: rgb(210, 35, 245)"></i
-            >Laporan<i class="fa fa-angle-right icon-right"></i>
-          </a>
-          <ul
-            class="side-dropdown"
-            :class="[$store.state.sidebar.active == 8 ? 'show' : '']"
-          >
-            <li>
-              <router-link to="/laporan-receipt">
-                <i
-                  class="fa fa-files-o icon"
-                  style="color: rgb(255, 170, 0)"
-                ></i
-                >Receipt
-              </router-link>
-            </li>
-            <li>
-              <router-link to="/laporan-transaksi">
-                <i
-                  class="fa fa-files-o icon"
-                  style="color: rgb(255, 170, 0)"
-                ></i
-                >Transaksi
-              </router-link>
-            </li>
-            <li>
-              <router-link to="/laporan-barang">
-                <i
-                  class="fa fa-files-o icon"
-                  style="color: rgb(255, 170, 0)"
-                ></i
-                >Barang Terjual
-              </router-link>
-            </li>
-          </ul>
-        </li>
-        <li @click="$store.commit('sidebar/setActive', 9)">
-          <router-link
-            to="/logistik"
-            :class="[$store.state.sidebar.active == 9 ? 'active' : '']"
-          >
-            <i class="fa fa-file-o icon" style="color: rgb(0, 145, 255)"></i
-            >Logistik
-          </router-link>
-        </li> -->
         <li
           style="
             color: rgb(154, 154, 154);

@@ -8,7 +8,6 @@ import HeaderInvoiceComponent from "../views/Invoice/Component/HeaderInvoiceComp
 import PaymentComponent from "../views/Invoice/Component/PaymentComponent.vue";
 import TableTrxComponent from "../views/Invoice/Component/TableTrxComponent.vue";
 
-import ModalTambahJasaComponent from "../views/Invoice/Component/ModalTambahJasaComponent.vue";
 import ModalCustomerComponent from "../views/Invoice/Component/ModalCustomerComponent.vue";
 
 import DetailMemberPiutangComponent from "../views/Piutang/Component/DetailMemberPiutangComponent.vue";
@@ -28,6 +27,8 @@ import ModalEditCustomerComponent from "../views/TransaksiReceipt/Component/Moda
 import DetailTrxLogistikComponent from "../views/Logistik/Component/DetailTrxLogistikComponent.vue";
 import ModalConfirmComponent from "../views/Logistik/Component/ModalConfirmComponent.vue";
 
+import DaftarUserUpdateComponent from "../views/Setup/DaftarUser/component/DaftarUserUpdateComponent.vue";
+
 const globalComponents = {
   install(Vue) {
     Vue.component("TenderCashComponent", TenderCashComponent);
@@ -40,7 +41,6 @@ const globalComponents = {
     Vue.component("PaymentComponent", PaymentComponent);
     Vue.component("TableTrxComponent", TableTrxComponent);
 
-    Vue.component("ModalTambahJasaComponent", ModalTambahJasaComponent);
     Vue.component("ModalCustomerComponent", ModalCustomerComponent);
 
     Vue.component("DetailMemberPiutangComponent", DetailMemberPiutangComponent);
@@ -62,6 +62,8 @@ const globalComponents = {
 
     Vue.component("DetailTrxLogistikComponent", DetailTrxLogistikComponent);
     Vue.component("ModalConfirmComponent", ModalConfirmComponent);
+
+    Vue.component("DaftarUserUpdateComponent", DaftarUserUpdateComponent);
   },
 };
 

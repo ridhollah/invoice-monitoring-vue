@@ -58,8 +58,6 @@ export default {
         .post("installment/installment-trx-search", state.form)
         .then((res) => {
           commit("alert/setLoading", false, { root: true });
-          // commit("alert/setAlertSuccess", res.data, { root: true });
-          // dispatch("alert/removeAlertSuccess", 1, { root: true });
           commit("setTrx", res.data.data);
         })
         .catch((err) => {
@@ -77,8 +75,6 @@ export default {
         .post("installment/installment-trx-detail", temp)
         .then((res) => {
           commit("alert/setLoading", false, { root: true });
-          // commit("alert/setAlertSuccess", res.data, { root: true });
-          // dispatch("alert/removeAlertSuccess", 1, { root: true });
           commit("setHeader", res.data.data.header);
           commit("setMember", res.data.data.member);
           commit("setDetails", res.data.data.details);
@@ -195,6 +191,7 @@ export default {
       let temp = {
         header: state.header,
         iduser: rootState.authentication.user.id,
+        outlet: rootState.authentication.user.outlet,
       };
       axios
         .post("installment/installment-trx-save", temp)
@@ -215,7 +212,7 @@ export default {
           dispatch("alert/removeAlertError", 0, { root: true });
         });
     },
-    cancelTrx({ commit, dispatch }) {
+    cancelTrx({ commit }) {
       let temp = {
         receipt: router.currentRoute.params.Receipt,
       };
@@ -225,7 +222,7 @@ export default {
         .then(() => {
           commit("alert/setLoading", false, { root: true });
           commit("resetCancel");
-          dispatch("showTrxDetail");
+          // dispatch("showTrxDetail");
         })
         .catch(() => {
           commit("alert/setLoading", false, { root: true });

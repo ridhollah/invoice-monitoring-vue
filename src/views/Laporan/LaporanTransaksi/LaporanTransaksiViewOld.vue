@@ -1,10 +1,23 @@
 <template>
   <div class="card">
     <div class="card-body">
-      <h5 class="fw-500 text-uppercase">Sales By Produk</h5>
+      <h5 class="fw-500 text-uppercase">Laporan Receipt</h5>
       <div class="divider"></div>
       <div class="d-flex align-items-end justify-content-between">
         <div class="d-flex align-items-end">
+          <div class="form-group me-1">
+            <label for="exampleFormControlInput30">Status</label>
+            <select
+              style="font-size: 13px"
+              class="form-select"
+              aria-label="Default select example"
+              v-model="search.status"
+            >
+              <option value="99">Belum Lunas</option>
+              <option value="1">Lunas</option>
+              <option value="0">Semua</option>
+            </select>
+          </div>
           <div class="form-group me-1">
             <label for="exampleFormControlInput30">Tanggal awal</label>
             <input
@@ -23,16 +36,6 @@
               class="form-control"
               id="exampleFormControlInput30"
               v-model="search.tglakhir"
-            />
-          </div>
-          <div class="form-group me-1">
-            <label for="exampleFormControlInput30">By No Transaksi</label>
-            <input
-              style="font-size: 13px"
-              type="text"
-              class="form-control"
-              id="exampleFormControlInput30"
-              v-model="search.pencarian"
             />
           </div>
           <button
@@ -57,15 +60,7 @@
             @click="exportExcel"
           >
             <i class="fa fa-files-o icon" aria-hidden="true"></i>
-            Excel
-          </button>
-          <button
-            type="button"
-            class="btn btn-secondary btn-sm me-1"
-            @click="exportCsv"
-          >
-            <i class="fa fa-files-o icon" aria-hidden="true"></i>
-            Csv
+            Simpan Excel
           </button>
           <button
             type="button"
@@ -73,7 +68,7 @@
             @click="print"
           >
             <i class="fa fa-file-o icon" aria-hidden="true"></i>
-            Cetak PDF
+            Cetak
           </button>
         </div>
       </div>
@@ -81,23 +76,26 @@
         <table class="table table-hover table-striped table-bordered">
           <thead>
             <tr class="text-center">
-              <th style="width: 5%">Tanggal</th>
-              <th style="width: 10%">No Transaksi</th>
-              <th style="width: 25%" colspan="2">Nama Produk</th>
-              <th style="width: 5%">Quantity</th>
-              <th style="width: 10%">Total Transaksi</th>
+              <th style="width: 8%">Tanggal</th>
+              <th style="width: 15%">No Transaksi</th>
+              <th style="width: 12%">Total Transaksi</th>
+              <th style="width: 12%">Total Bayar</th>
+              <th style="width: 12%">Total Sisa</th>
+              <th style="width: 15%">Customer</th>
               <th style="width: 10%">Surat Jalan</th>
+              <th style="width: 10%">Status</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(n, index) in datas" :key="index">
               <td class="text-center">{{ n.tgl | formatDt2 }}</td>
               <td class="text-center">{{ n.receipt }}</td>
-              <td class="text-center">{{ n.internal }}</td>
-              <td class="text-start">{{ n.descript }}</td>
-              <td class="text-center">{{ n.quantity }}</td>
-              <td class="text-end">{{ n.netsales | Rupiah2 }}</td>
+              <td class="text-end">{{ n.ttlsales | Rupiah2 }}</td>
+              <td class="text-end">{{ n.ttlbayar | Rupiah2 }}</td>
+              <td class="text-end">{{ n.ttlsisa | Rupiah2 }}</td>
+              <td>{{ n.name }}</td>
               <td class="text-center">{{ n.noshipping }}</td>
+              <td class="text-center">{{ n.statusname }}</td>
             </tr>
           </tbody>
         </table>
@@ -118,22 +116,25 @@
             <thead>
               <tr class="text-center">
                 <th style="width: 8%">Tanggal</th>
-                <th style="width: 10%">No Transaksi</th>
-                <th style="width: 30%" colspan="2">Nama Produk</th>
-                <th style="width: 5%">Quantity</th>
-                <th style="width: 10%">Total Transaksi</th>
+                <th style="width: 15%">No Transaksi</th>
+                <th style="width: 12%">Total Transaksi</th>
+                <th style="width: 12%">Total Bayar</th>
+                <th style="width: 12%">Total Sisa</th>
+                <th style="width: 15%">Customer</th>
                 <th style="width: 10%">Surat Jalan</th>
+                <th style="width: 10%">Status</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(n, index) in datas" :key="index">
                 <td class="text-center">{{ n.tgl | formatDt2 }}</td>
                 <td class="text-center">{{ n.receipt }}</td>
-                <td class="text-center">{{ n.internal }}</td>
-                <td class="text-start">{{ n.descript }}</td>
-                <td class="text-center">{{ n.quantity }}</td>
-                <td class="text-end">{{ n.netsales | Rupiah2 }}</td>
+                <td class="text-end">{{ n.ttlsales | Rupiah2 }}</td>
+                <td class="text-end">{{ n.ttlbayar | Rupiah2 }}</td>
+                <td class="text-end">{{ n.ttlsisa | Rupiah2 }}</td>
+                <td>{{ n.name }}</td>
                 <td class="text-center">{{ n.noshipping }}</td>
+                <td class="text-center">{{ n.statusname }}</td>
               </tr>
             </tbody>
           </table>
@@ -201,27 +202,29 @@ export default {
         const header = [
           "Tanggal",
           "No Transaksi",
-          "Internal",
-          "Descript",
-          "Quantity",
           "Total Transaksi",
-          "Surat Jalan",
+          "Total Bayar",
+          "Total Sisa",
+          "Customer",
+          "No Surat Jalan",
+          "Status",
         ];
         const field = [
           "tgl",
           "receipt",
-          "internal",
-          "descript",
-          "quantity",
-          "netsales",
+          "ttlsales",
+          "ttlbayar",
+          "ttlsisa",
+          "name",
           "noshipping",
+          "statusname",
         ];
         const data = this.formatJson(field, this.datas);
         excel.export_json_to_excel({
           header: header,
           data: data,
-          sheetName: `LAPORAN TRANSAKSI`,
-          filename: `LAPORAN TRANSAKSI${this.search.tglawal} - ${this.search.tglakhir}`,
+          sheetName: `LAPORAN TRANSAKSI RECEIPT`,
+          filename: `LAPORAN TRANSAKSI RECEIPT ${this.search.tglawal} - ${this.search.tglakhir}`,
           autoWidth: true,
           bookType: "xlsx",
         });
@@ -233,23 +236,6 @@ export default {
           return v[j];
         })
       );
-    },
-    exportCsv() {
-      const datas = this.datas;
-      const csvContent = this.convertToSCV(datas);
-      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "Laporan_Transaksi_By_Produk.csv");
-      link.click();
-    },
-    convertToSCV(data) {
-      const header = Object.keys(data[0]);
-      const rows = data.map((obj) => header.map((h) => obj[h]));
-      const headerRow = header.join(",");
-      const csvRows = [headerRow, ...rows.map((row) => row.join(","))];
-      return csvRows.join("\n");
     },
   },
 };

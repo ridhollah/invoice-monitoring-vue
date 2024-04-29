@@ -3,7 +3,9 @@ import axios from "axios";
 export default {
   namespaced: true,
   state: {
-    search: {},
+    search: {
+      status: 2,
+    },
     datas: [],
   },
   mutations: {
@@ -15,14 +17,16 @@ export default {
     },
   },
   actions: {
-    resetLaporan({ state }) {
-      state.search = {};
-      state.datas = [];
+    resetLaporan({ state, dispatch }) {
+      state.search = {
+        status: 2,
+      };
+      dispatch("laporan");
     },
-    LaporanPembayaran({ commit, state, dispatch }) {
+    laporan({ commit, state, dispatch }) {
       commit("alert/setLoading", true, { root: true });
       axios
-        .post("report/cicilan", state.search)
+        .post("report/shipping", state.search)
         .then((res) => {
           commit("alert/setLoading", false, { root: true });
           commit("setDatas", res.data);

@@ -1,13 +1,9 @@
 import axios from "axios";
-import moment from "moment";
 
 export default {
   namespaced: true,
   state: {
-    search: {
-      status: 0,
-      tglawal: moment().format("YYYY-MM-D"),
-    },
+    search: {},
     datas: [],
   },
   mutations: {
@@ -19,12 +15,9 @@ export default {
     },
   },
   actions: {
-    resetLaporan({ state, dispatch }) {
-      state.search = {
-        status: 0,
-        tglawal: moment().format("YYYY-MM-D"),
-      };
-      dispatch("laporanTransaksi");
+    resetLaporan({ state }) {
+      state.search = {};
+      state.datas = [];
     },
     laporanTransaksi({ commit, state, dispatch }) {
       commit("alert/setLoading", true, { root: true });

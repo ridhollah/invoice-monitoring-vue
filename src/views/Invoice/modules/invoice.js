@@ -89,8 +89,9 @@ export default {
     },
   },
   actions: {
-    searchNewTrx({ commit, state, dispatch }) {
+    searchNewTrx({ commit, state, dispatch, rootState }) {
       commit("alert/setLoading", true, { root: true });
+      state.form.outlet = rootState.authentication.user.outlet;
       axios
         .post("trx/new-trx-search", state.form)
         .then((res) => {
@@ -108,10 +109,11 @@ export default {
     },
     saveNewTrx({ commit, state, dispatch, rootState }) {
       let temp = {
+        iduser: rootState.authentication.user.id,
+        outlet: rootState.authentication.user.outlet,
         header: state.header,
         member: state.member,
         payment: state.payment,
-        iduser: rootState.authentication.user.id,
         detail: state.details,
         alamatjasa: state.alamatJasa,
         stsproduk: state.checkedProduk,

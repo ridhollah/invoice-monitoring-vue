@@ -46,9 +46,9 @@
             v-model="search.status"
           >
             <option value="0">Semua</option>
-            <option value="2">Menunggu Qc</option>
+            <option value="2">Menunggu QC</option>
             <option value="3">Siap dikirim</option>
-            <option value="6">Sudah dikirim</option>
+            <option value="6">Selesai dikirim</option>
           </select>
         </div>
         <div class="form-group me-1">

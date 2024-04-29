@@ -175,15 +175,17 @@
                           >No Surat Jalan</label
                         >
                         <p class="fw-bold r-12">
-                          {{ shipping.noshipping ? shipping.noshipping : "-" }}
+                          {{
+                            shipping && shipping.noshipping != ""
+                              ? shipping.noshipping
+                              : "-"
+                          }}
                         </p>
                       </div>
                       <div>
                         <label class="label font-monospace">Nama</label>
                         <p class="fw-bold r-12">
-                          {{
-                            shipping.namalengkap ? shipping.namalengkap : "-"
-                          }}
+                          {{ shipping ? shipping.namalengkap : "-" }}
                         </p>
                       </div>
                     </div>
@@ -191,13 +193,13 @@
                       <div>
                         <label class="label font-monospace">Alamat</label>
                         <p class="fw-bold r-12">
-                          {{ shipping.address ? shipping.address : "-" }}
+                          {{ shipping ? shipping.address : "-" }}
                         </p>
                       </div>
                       <div>
                         <label class="label font-monospace">Handphone</label>
                         <p class="fw-bold r-12">
-                          {{ shipping.nohp ? shipping.nohp : "-" }}
+                          {{ shipping ? shipping.nohp : "-" }}
                         </p>
                       </div>
                     </div>
@@ -361,7 +363,13 @@
                         <td>{{ n.nodocument }}</td>
                         <td class="text-end">{{ n.ttlbayar | Rupiah2 }}</td>
                         <td>
-                          {{ n.line == 0 ? "DP" : "Cicilan" }}
+                          {{
+                            n.line == 0
+                              ? n.tendername == "CICILAN YAFURNI"
+                                ? "TOTAL CICILAN"
+                                : "DP AWAL"
+                              : "CICILAN TERBAYAR"
+                          }}
                         </td>
                       </tr>
                     </tbody>

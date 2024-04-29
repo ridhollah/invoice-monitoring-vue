@@ -34,7 +34,7 @@
       <div class="ps-lg-2 col-lg-6 mt-2 mt-lg-0">
         <div class="card">
           <div class="card-body">
-            <div class="d-flex" style="font-size: 14px">
+            <div class="d-flex" style="font-size: 13px">
               <div class="col-md-8 col-lg-8">
                 <div>
                   <label class="label font-monospace">Nama Lengkap</label>

@@ -71,18 +71,10 @@
       <div>
         <table>
           <tbody>
-            <!-- <tr>
-              <td class="r-td1">Sub Total</td>
-              <td class="r-td2">{{ header.ttlprice | Rupiah2 }}</td>
-            </tr> -->
             <tr v-show="header.discamtfr && header.discamtfr > 0">
               <td>Nilai Diskon Khusus</td>
               <td class="r-td2">{{ header.discamtfr | Rupiah2 }}</td>
             </tr>
-            <!-- <tr v-show="header.ttldisc && header.ttldisc > 0">
-              <td>Nilai Diskon Khusus</td>
-              <td class="r-td2">{{ header.ttldisc | Rupiah2 }}</td>
-            </tr> -->
             <tr v-show="header.ttldeliv && header.ttldeliv > 0">
               <td>Biaya Pengiriman</td>
               <td class="r-td2">{{ header.ttldeliv | Rupiah2 }}</td>
@@ -159,10 +151,10 @@ import { mapState } from "vuex";
 export default {
   computed: {
     ...mapState({
-      header: (state) => state.invoicePrint.header,
-      payment: (state) => state.invoicePrint.payment,
-      member: (state) => state.invoicePrint.member,
-      details: (state) => state.invoicePrint.details,
+      header: (state) => state.invoicePrint.invoice.header,
+      payment: (state) => state.invoicePrint.invoice.payment,
+      member: (state) => state.invoicePrint.invoice.customer,
+      details: (state) => state.invoicePrint.invoice.details,
     }),
   },
 };

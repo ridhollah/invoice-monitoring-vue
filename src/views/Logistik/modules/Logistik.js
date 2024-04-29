@@ -6,6 +6,7 @@ export default {
     search: {
       count: 100,
       status: 0,
+      outlet: "",
     },
     datas: [],
     detail: {},
@@ -36,32 +37,35 @@ export default {
     },
   },
   actions: {
-    resetLogistik({ dispatch, state }) {
+    resetLogistik({ dispatch, state, rootState }) {
       state.search = {
         count: 100,
         status: 0,
+        outlet: rootState.authentication.user.outlet,
       };
       dispatch("showTrx");
     },
-    showTrx({ commit, dispatch, state }) {
+    showTrx({ commit, dispatch, state, rootState }) {
       commit("setDatas", []);
       commit("alert/setLoading", true, { root: true });
-      axios
-        .post("logistik/show-list-trx", state.search)
-        .then((res) => {
-          commit("alert/setLoading", false, { root: true });
-          commit("setDatas", res.data.data);
-        })
-        .catch((err) => {
-          commit("alert/setLoading", false, { root: true });
-          commit("alert/setAlertError", err.response.data, { root: true });
-          dispatch("alert/removeAlertError", 0, { root: true });
-        });
+      (state.search.outlet = rootState.authentication.user.outlet),
+        axios
+          .post("logistik/show-list-trx", state.search)
+          .then((res) => {
+            commit("alert/setLoading", false, { root: true });
+            commit("setDatas", res.data.data);
+          })
+          .catch((err) => {
+            commit("alert/setLoading", false, { root: true });
+            commit("alert/setAlertError", err.response.data, { root: true });
+            dispatch("alert/removeAlertError", 0, { root: true });
+          });
     },
     detailTrx({ commit, dispatch, rootState }, payload) {
       let temp = {
         header: payload,
         iduser: rootState.authentication.user.id,
+        outlet: rootState.authentication.user.outlet,
       };
       commit("setDetail", {});
       commit("alert/setLoading", true, { root: true });

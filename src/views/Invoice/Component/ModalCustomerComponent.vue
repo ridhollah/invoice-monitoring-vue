@@ -11,14 +11,6 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="customerLabel"></h5>
-          <!-- <button
-            class="btn btn-secondary btn-sm"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-            @click="$store.commit('invoice/resetJasa')"
-          >
-            <i class="fa fa-times" aria-hidden="true"></i>
-          </button> -->
         </div>
         <div class="modal-body">
           <div class="d-lg-flex">

@@ -4,8 +4,7 @@
       <table class="table table-hover">
         <thead>
           <tr>
-            <th style="width: 50%">Detail Pembayaran</th>
-            <th style="width: 50%"></th>
+            <th style="width: 50%" colspan="2">Detail Pembayaran</th>
           </tr>
         </thead>
         <tbody>

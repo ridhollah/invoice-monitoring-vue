@@ -20,7 +20,6 @@ import "./services/RupiahServices";
 import "./services/DateServices";
 
 Vue.config.productionTip = false;
-
 Vue.use(componentService);
 
 store

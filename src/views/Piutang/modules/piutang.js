@@ -121,6 +121,7 @@ export default {
       let temp = {
         member: state.detailMember.member,
         iduser: rootState.authentication.user.id,
+        outlet: rootState.authentication.user.outlet,
         newTrx: state.newTrxMember,
       };
       axios

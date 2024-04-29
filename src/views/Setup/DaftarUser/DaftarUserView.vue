@@ -44,7 +44,7 @@
               <!-- <th style="width: 10%">Tanggal Login</th> -->
               <!-- <th style="width: 10%">Tanggal Logout</th> -->
               <!-- <th style="width: 10%">IP</th> -->
-              <!-- <th style="width: 10%">Aksi</th> -->
+              <th style="width: 5%">Aksi</th>
             </tr>
           </thead>
           <tbody>
@@ -59,42 +59,22 @@
               <!-- <td>{{ n.lastlogin | formatDt4 }}</td> -->
               <!-- <td>{{ n.lastlogout | formatDt4 }}</td> -->
               <!-- <td>{{ n.ip }}</td> -->
-              <!-- <td>
-                <div class="dropdown">
-                  <button
-                    class="btn btn-primary dropdown-toggle btn-sm"
-                    type="button"
-                    id="dropdownMenuButton1"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    style="font-size: 12px"
-                  >
-                    <i class="fa fa-align-left" aria-hidden="true"></i>
-                  </button>
-                  <ul
-                    class="dropdown-menu"
-                    aria-labelledby="dropdownMenuButton1"
-                  >
-                    <li>
-                      <a class="btn btn-primary btn-sm dropdown-item"
-                        ><i class="fa fa-file-o me-2" aria-hidden="true"></i
-                        >Edit</a
-                      >
-                    </li>
-                    <li>
-                      <a class="btn btn-primary btn-sm dropdown-item"
-                        ><i class="fa fa-file-o me-2" aria-hidden="true"></i
-                        >Hapus</a
-                      >
-                    </li>
-                  </ul>
-                </div>
-              </td> -->
+              <td class="text-center">
+                <button
+                  class="btn btn-primary btn-sm"
+                  data-bs-toggle="modal"
+                  data-bs-target="#daftarUserUpdateModal"
+                  @click="$store.dispatch('daftarUser/showDetailUser', n)"
+                >
+                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
+    <DaftarUserUpdateComponent />
   </div>
 </template>
 <script>

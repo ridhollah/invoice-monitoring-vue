@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-body">
-      <h5 class="fw-500 text-uppercase">Laporan Transaksi</h5>
+      <h5 class="fw-500 text-uppercase">Sales By Payment</h5>
       <div class="divider"></div>
       <div class="d-flex align-items-end justify-content-between">
         <div class="d-flex align-items-end">
@@ -55,7 +55,15 @@
             @click="exportExcel"
           >
             <i class="fa fa-files-o icon" aria-hidden="true"></i>
-            Simpan Excel
+            Excel
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary btn-sm me-1"
+            @click="exportCsv"
+          >
+            <i class="fa fa-files-o icon" aria-hidden="true"></i>
+            Csv
           </button>
           <button
             type="button"
@@ -67,26 +75,22 @@
           </button>
         </div>
       </div>
-      <div class="table-responsive mt-2" style="height: 400px; font-size: 12px">
+      <div class="table-responsive mt-2" style="height: 400px">
         <table class="table table-hover table-striped table-bordered">
           <thead>
             <tr class="text-center">
-              <th style="width: 8%">Tanggal</th>
-              <th style="width: 15%">No Transaksi</th>
-              <th style="width: 12%">Tender Type</th>
-              <th style="width: 12%">Nama Kartu</th>
-              <th style="width: 10%">Voucher</th>
+              <th style="width: 10%">Outlet</th>
+              <th style="width: 10%">Tender Type</th>
+              <th style="width: 50%">Tender Name</th>
               <th style="width: 10%">Nominal</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(n, index) in datas" :key="index">
-              <td class="text-center">{{ n.tgl | formatDt2 }}</td>
-              <td class="text-center">{{ n.receipt }}</td>
-              <td class="text-end">{{ n.tendername }}</td>
-              <td class="text-end">{{ n.namecard }}</td>
-              <td class="text-center">{{ n.nodocument }}</td>
-              <td class="text-center">{{ n.ttlbayar | Rupiah2 }}</td>
+              <td>{{ n.outlet }}</td>
+              <td>{{ n.tendertype }}</td>
+              <td>{{ n.tendername }}</td>
+              <td>{{ n.ttlbayar | Rupiah2 }}</td>
             </tr>
           </tbody>
         </table>
@@ -105,24 +109,18 @@
           <table class="table table-bordered" style="font-size: 12px">
             <thead>
               <tr class="text-center">
-                <th style="width: 8%">Tanggal</th>
-                <th style="width: 15%">No Transaksi</th>
-                <th style="width: 12%">Tender Type</th>
-                <th style="width: 12%">Nama Kartu</th>
-                <th style="width: 10%">Voucher</th>
+                <th style="width: 10%">Outlet</th>
+                <th style="width: 10%">Tender Type</th>
+                <th style="width: 50%">Tender Name</th>
                 <th style="width: 10%">Nominal</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(n, index) in datas" :key="index">
-                <td class="text-center">
-                  {{ n.tgl | formatDt2 }}
-                </td>
-                <td class="text-center">{{ n.receipt }}</td>
-                <td class="text-center">{{ n.tendername }}</td>
-                <td>{{ n.namecard }}</td>
-                <td>{{ n.nodocument }}</td>
-                <td class="text-end">{{ n.ttlbayar | Rupiah2 }}</td>
+                <td>{{ n.outlet }}</td>
+                <td>{{ n.tendertype }}</td>
+                <td>{{ n.tendername }}</td>
+                <td>{{ n.ttlbayar | Rupiah2 }}</td>
               </tr>
             </tbody>
           </table>
@@ -187,28 +185,18 @@ export default {
     },
     exportExcel() {
       import("@/services/Export2Excel").then((excel) => {
-        const header = [
-          "Tanggal",
-          "No Transaksi",
-          "Tender Type",
-          "Nama Kartu",
-          "No Voucher",
-          "Nominal",
-        ];
-        const field = [
-          "tgl",
-          "receipt",
-          "tendername",
-          "namecard",
-          "nodocument",
-          "ttlbayar",
-        ];
+        const header = ["outlet", "tendertype", "tendername", "ttlbayar"];
+        const field = ["outlet", "tendertype", "tendername", "ttlbayar"];
         const data = this.formatJson(field, this.datas);
+
+        const tglawal = this.search.tglawal ? this.search.tglawal : "";
+        const tglakhir = this.search.tglakhir ? this.search.tglakhir : "";
+
         excel.export_json_to_excel({
           header: header,
           data: data,
-          sheetName: `LAPORAN TRANSAKSI`,
-          filename: `LAPORAN TRANSAKSI ${this.search.tglawal} - ${this.search.tglakhir}`,
+          sheetName: `LAPORAN TRANSAKSI BY PAYMENT`,
+          filename: `LAPORAN TRANSAKSI BY PAYMENT PRIODE : ${tglawal} - ${tglakhir}`,
           autoWidth: true,
           bookType: "xlsx",
         });
@@ -220,6 +208,23 @@ export default {
           return v[j];
         })
       );
+    },
+    exportCsv() {
+      const datas = this.datas;
+      const csvContent = this.convertToSCV(datas);
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "Laporan_Transaksi_By_Payment.csv");
+      link.click();
+    },
+    convertToSCV(data) {
+      const header = Object.keys(data[0]);
+      const rows = data.map((obj) => header.map((h) => obj[h]));
+      const headerRow = header.join(",");
+      const csvRows = [headerRow, ...rows.map((row) => row.join(","))];
+      return csvRows.join("\n");
     },
   },
 };

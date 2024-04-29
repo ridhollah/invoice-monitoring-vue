@@ -20,6 +20,7 @@ import Logistik from "@/views/Logistik/LogistikView.vue";
 import RegistrasiUserView from "@/views/Setup/RegistrasiUser/RegistrasiUserView.vue";
 import DaftarUser from "@/views/Setup/DaftarUser/DaftarUserView.vue";
 import RoleUserView from "@/views/Setup/RoleUser/RoleUserView.vue";
+import LaporanSuratJalanView from "@/views/Laporan/LaporanSuratJalan/LaporanSuratJalanView.vue";
 
 Vue.use(VueRouter);
 
@@ -105,6 +106,11 @@ const routes = [
         path: "/laporan-kasir",
         name: "laporan-kasir",
         component: LaporanKasirView,
+      },
+      {
+        path: "/laporan-surat-jalan",
+        name: "laporan-surat-jalan",
+        component: LaporanSuratJalanView,
       },
       {
         path: "/logistik",

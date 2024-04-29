@@ -28,7 +28,11 @@
         <div>
           <CetakInvoiceComponent />
         </div>
-        <div v-if="header.noshipping != ''">
+      </div>
+    </div>
+    <div class="card mt-2" v-if="header.noshipping != ''">
+      <div class="card-body">
+        <div>
           <CetakSuratJalanComponent />
         </div>
       </div>
@@ -56,10 +60,7 @@ export default {
   },
   computed: {
     ...mapState({
-      header: (state) => state.invoicePrint.header,
-      payment: (state) => state.invoicePrint.payment,
-      member: (state) => state.invoicePrint.member,
-      details: (state) => state.invoicePrint.details,
+      header: (state) => state.invoicePrint.invoice.header,
     }),
   },
   created() {

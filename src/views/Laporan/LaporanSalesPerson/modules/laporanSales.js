@@ -1,11 +1,8 @@
 import axios from "axios";
-import moment from "moment";
 export default {
   namespaced: true,
   state: {
-    search: {
-      tglawal: moment().format("YYYY-MM-D"),
-    },
+    search: {},
     datas: [],
   },
   mutations: {
@@ -17,14 +14,13 @@ export default {
     },
   },
   actions: {
-    resetLaporan({ state, dispatch }) {
-      state.search = {
-        tglawal: moment().format("YYYY-MM-D"),
-      };
-      dispatch("showLaporan");
+    resetLaporan({ state }) {
+      state.search = {};
+      state.datas = [];
     },
-    showLaporan({ commit, state, dispatch }) {
+    showLaporan({ commit, state, dispatch, rootState }) {
       commit("alert/setLoading", true, { root: true });
+      state.search.outlet = rootState.authentication.user.outlet;
       axios
         .post("report/sales", state.search)
         .then((res) => {

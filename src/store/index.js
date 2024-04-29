@@ -30,6 +30,7 @@ import laporanTransaksi from "../views/Laporan/LaporanTransaksi/modules/laporanT
 import laporanPembayaran from "../views/Laporan/LaporanPembayaran/modules/laporanPembayaran";
 import laporanBarang from "../views/Laporan/LaporanBarang/modules/laporanBarang";
 import laporanSales from "../views/Laporan/LaporanSalesPerson/modules/laporanSales";
+import laporanSuratJalan from "../views/Laporan/LaporanSuratJalan/modules/laporanSuratJalan";
 
 Vue.use(Vuex);
 
@@ -51,6 +52,7 @@ export default new Vuex.Store({
     laporanTransaksi,
     laporanPembayaran,
     laporanSales,
+    laporanSuratJalan,
     roleUser,
   },
 });

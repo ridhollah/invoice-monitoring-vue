@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="table-responsive" style="height: 300px; font-size: 12px">
-      <table class="table table-hover table-striped table-bordered">
+      <table class="table table-hover table-striped table-bordered table-sm">
         <thead>
           <tr class="text-center">
             <th style="width: 50%" colspan="2">Nama Barang</th>

@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-body">
-      <h5 class="fw-500 text-uppercase">Sales By Produk</h5>
+      <h5 class="fw-500 text-uppercase">Laporan Surat Jalan</h5>
       <div class="divider"></div>
       <div class="d-flex align-items-end justify-content-between">
         <div class="d-flex align-items-end">
@@ -26,6 +26,20 @@
             />
           </div>
           <div class="form-group me-1">
+            <label for="exampleFormControlInput30">Status</label>
+            <select
+              style="font-size: 13px"
+              class="form-select"
+              aria-label="Default select example"
+              v-model="search.status"
+            >
+              <option value="0">Semua</option>
+              <option value="2">Menunggu QC</option>
+              <option value="3">Siap dikirim</option>
+              <option value="6">Selesai dikirim</option>
+            </select>
+          </div>
+          <div class="form-group me-1">
             <label for="exampleFormControlInput30">By No Transaksi</label>
             <input
               style="font-size: 13px"
@@ -35,17 +49,18 @@
               v-model="search.pencarian"
             />
           </div>
+
           <button
             type="button"
             class="btn btn-primary btn-sm me-1"
-            @click="$store.dispatch('laporanTransaksi/laporanTransaksi')"
+            @click="$store.dispatch('laporanSuratJalan/laporan')"
           >
             <i class="fa fa-search" aria-hidden="true"></i>
           </button>
           <button
             type="button"
             class="btn btn-secondary btn-sm me-1"
-            @click="$store.dispatch('laporanTransaksi/resetLaporan')"
+            @click="$store.dispatch('laporanSuratJalan/resetLaporan')"
           >
             <i class="fa fa-refresh" aria-hidden="true"></i>
           </button>
@@ -62,18 +77,10 @@
           <button
             type="button"
             class="btn btn-secondary btn-sm me-1"
-            @click="exportCsv"
-          >
-            <i class="fa fa-files-o icon" aria-hidden="true"></i>
-            Csv
-          </button>
-          <button
-            type="button"
-            class="btn btn-secondary btn-sm me-1"
             @click="print"
           >
             <i class="fa fa-file-o icon" aria-hidden="true"></i>
-            Cetak PDF
+            Cetak
           </button>
         </div>
       </div>
@@ -81,23 +88,25 @@
         <table class="table table-hover table-striped table-bordered">
           <thead>
             <tr class="text-center">
-              <th style="width: 5%">Tanggal</th>
               <th style="width: 10%">No Transaksi</th>
-              <th style="width: 25%" colspan="2">Nama Produk</th>
+              <th style="width: 12%">No Surat Jalan</th>
+              <th style="width: 40%" colspan="2">Nama</th>
               <th style="width: 5%">Quantity</th>
-              <th style="width: 10%">Total Transaksi</th>
-              <th style="width: 10%">Surat Jalan</th>
+              <th style="width: 10%">Nama Confirm</th>
+              <th style="width: 10%">Tanggal Confirm</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(n, index) in datas" :key="index">
-              <td class="text-center">{{ n.tgl | formatDt2 }}</td>
               <td class="text-center">{{ n.receipt }}</td>
-              <td class="text-center">{{ n.internal }}</td>
-              <td class="text-start">{{ n.descript }}</td>
-              <td class="text-center">{{ n.quantity }}</td>
-              <td class="text-end">{{ n.netsales | Rupiah2 }}</td>
               <td class="text-center">{{ n.noshipping }}</td>
+              <td class="text-center">{{ n.internal }}</td>
+              <td>{{ n.descript }}</td>
+              <td class="text-center">{{ n.quantity }}</td>
+              <td class="text-center">
+                {{ n.namalengkap ? n.namalengkap : "-" }}
+              </td>
+              <td class="text-center">{{ n.tglconfirm | formatDt4 }}</td>
             </tr>
           </tbody>
         </table>
@@ -106,34 +115,33 @@
         <div class="mt-2" ref="cetak">
           <div style="text-align: center">
             <h5 style="text-transform: uppercase; text-decoration: underline">
-              Laporan Transaksi
+              Laporan Surat Jalan
             </h5>
             <p style="font-size: 12px; margin-top: 5px">
-              Dari : {{ search.tglawal }} - Ke :
-              {{ search.tglakhir }}
+              Priode : {{ search.tglawal | formatDt2 }} -
+              {{ search.tglakhir | formatDt2 }}
             </p>
           </div>
-
           <table class="table table-bordered" style="font-size: 12px">
             <thead>
               <tr class="text-center">
-                <th style="width: 8%">Tanggal</th>
                 <th style="width: 10%">No Transaksi</th>
-                <th style="width: 30%" colspan="2">Nama Produk</th>
+                <th style="width: 12%">No Surat Jalan</th>
+                <th style="width: 40%" colspan="2">Nama</th>
                 <th style="width: 5%">Quantity</th>
-                <th style="width: 10%">Total Transaksi</th>
-                <th style="width: 10%">Surat Jalan</th>
+                <th style="width: 10%">Nama Confirm</th>
+                <th style="width: 10%">Tanggal Confirm</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(n, index) in datas" :key="index">
-                <td class="text-center">{{ n.tgl | formatDt2 }}</td>
                 <td class="text-center">{{ n.receipt }}</td>
-                <td class="text-center">{{ n.internal }}</td>
-                <td class="text-start">{{ n.descript }}</td>
-                <td class="text-center">{{ n.quantity }}</td>
-                <td class="text-end">{{ n.netsales | Rupiah2 }}</td>
                 <td class="text-center">{{ n.noshipping }}</td>
+                <td class="text-center">{{ n.internal }}</td>
+                <td>{{ n.descript }}</td>
+                <td class="text-center">{{ n.quantity }}</td>
+                <td class="text-center">{{ n.namalengkap }}</td>
+                <td class="text-center">{{ n.tglconfirm }}</td>
               </tr>
             </tbody>
           </table>
@@ -144,7 +152,7 @@
 </template>
 <script>
 export default {
-  name: "LaporanTransaksiView",
+  name: "LaporanSuratJalanView",
   data() {
     return {
       show: false,
@@ -152,14 +160,14 @@ export default {
   },
   computed: {
     datas() {
-      return this.$store.state.laporanTransaksi.datas;
+      return this.$store.state.laporanSuratJalan.datas;
     },
     search: {
       get() {
-        return this.$store.state.laporanTransaksi.search;
+        return this.$store.state.laporanSuratJalan.search;
       },
       set(value) {
-        return this.$store.commit("laporanTransaksi/setSearch", value);
+        return this.$store.commit("laporanSuratJalan/setSearch", value);
       },
     },
   },
@@ -199,29 +207,31 @@ export default {
     exportExcel() {
       import("@/services/Export2Excel").then((excel) => {
         const header = [
-          "Tanggal",
           "No Transaksi",
+          "No Surat Jalan",
           "Internal",
           "Descript",
           "Quantity",
-          "Total Transaksi",
-          "Surat Jalan",
+          "Nama Confirm",
+          "Tanggal Confirm",
         ];
         const field = [
-          "tgl",
           "receipt",
+          "noshipping",
           "internal",
           "descript",
           "quantity",
-          "netsales",
-          "noshipping",
+          "namalengkap",
+          "tglconfirm",
         ];
         const data = this.formatJson(field, this.datas);
+        const tglawal = this.search.tglawal ? this.search.tglawal : "";
+        const tglakhir = this.search.tglakhir ? this.search.tglakhir : "";
         excel.export_json_to_excel({
           header: header,
           data: data,
-          sheetName: `LAPORAN TRANSAKSI`,
-          filename: `LAPORAN TRANSAKSI${this.search.tglawal} - ${this.search.tglakhir}`,
+          sheetName: `LAPORAN SURAT JALAN`,
+          filename: `LAPORAN SURAT JALAN ${tglawal} - ${tglakhir}`,
           autoWidth: true,
           bookType: "xlsx",
         });
@@ -234,23 +244,9 @@ export default {
         })
       );
     },
-    exportCsv() {
-      const datas = this.datas;
-      const csvContent = this.convertToSCV(datas);
-      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "Laporan_Transaksi_By_Produk.csv");
-      link.click();
-    },
-    convertToSCV(data) {
-      const header = Object.keys(data[0]);
-      const rows = data.map((obj) => header.map((h) => obj[h]));
-      const headerRow = header.join(",");
-      const csvRows = [headerRow, ...rows.map((row) => row.join(","))];
-      return csvRows.join("\n");
-    },
+  },
+  created() {
+    this.$store.dispatch("laporanSuratJalan/laporan");
   },
 };
 </script>

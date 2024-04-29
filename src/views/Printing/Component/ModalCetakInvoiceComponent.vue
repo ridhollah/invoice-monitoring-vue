@@ -28,7 +28,7 @@
             type="button"
             class="btn btn-secondary btn-sm"
             data-bs-dismiss="modal"
-            @click="$store.commit('invoicePrint/reset')"
+            @click="$store.commit('invoicePrint/resetPrintInvoice')"
           >
             Batal
           </button>

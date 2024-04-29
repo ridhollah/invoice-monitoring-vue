@@ -32,15 +32,6 @@
             >
               <i class="fa fa-refresh" aria-hidden="true"></i>
             </button>
-            <!-- <button
-              type="button"
-              class="btn btn-primary btn-sm"
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
-              v-if="$store.getters['invoice/countTtlsisa'] == 1"
-            >
-              Surat Jalan
-            </button> -->
             <button
               type="button"
               class="btn btn-primary btn-sm ms-1"
@@ -77,18 +68,7 @@
         </div>
       </div>
     </div>
-    <!-- <div class="card mt-2">
-      <div class="card-body text-end">
-        <button
-          class="btn btn-primary btn-sm"
-          @click="$store.dispatch('invoice/saveNewTrx')"
-        >
-          Simpan
-        </button>
-      </div>
-    </div> -->
     <ModalCustomerComponent />
-    <ModalTambahJasaComponent />
   </div>
 </template>
 <script>

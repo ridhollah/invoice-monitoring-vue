@@ -31,7 +31,9 @@
                       </div>
                       <div class="col-md-4 col-lg-4">
                         <div>
-                          <label class="label font-monospace">Tanggal</label>
+                          <label class="label font-monospace"
+                            >Tanggal Transaksi</label
+                          >
                           <p class="fw-bold">
                             {{ header.tgl ? header.tgl : "-" | formatDt2 }}
                           </p>
@@ -321,7 +323,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("helper/showTenType");
+    // this.$store.dispatch("helper/showTenType");
     this.$store.dispatch(
       "installment/showTrxDetail",
       this.$route.params.Receipt

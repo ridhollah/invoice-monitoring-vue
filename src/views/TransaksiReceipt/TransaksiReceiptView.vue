@@ -3,39 +3,6 @@
     <div class="card-body">
       <h5 class="fw-500 text-uppercase">Data Transaksi Receipt</h5>
       <div class="divider"></div>
-      <!-- <div class="d-lg-flex">
-        <div class="col-lg-6 p-1">
-          <div class="card">
-            <div class="card-body">
-              <p style="font-size: 12px; margin: 0 !important">
-                Jumlah Transaksi
-              </p>
-              <h5>{{ $store.state.transaksiReceipt.ttltrx | Rupiah }}</h5>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-6 p-1">
-          <div class="card">
-            <div class="card-body">
-              <p style="font-size: 12px; margin: 0 !important">
-                Total Transaksi
-              </p>
-              <h5>{{ $store.state.transaksiReceipt.ttlreceipt }}</h5>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 p-1">
-          <div class="card">
-            <div class="card-body">
-              <p style="font-size: 12px; margin: 0 !important">
-                Jumlah barang terjual
-              </p>
-              <h5>125</h5>
-            </div>
-          </div>
-        </div>
-      </div> -->
-      <div class="divider"></div>
       <div class="d-flex align-items-end">
         <div class="form-group me-1">
           <label for="exampleFormControlInput30">Pencarian</label>
@@ -196,7 +163,7 @@
                         >Cetak Invoice</a
                       >
                     </li>
-                    <li v-if="n.statusj == 3">
+                    <li v-if="n.statusj != 2">
                       <a
                         class="btn btn-success btn-sm dropdown-item"
                         data-bs-toggle="modal"

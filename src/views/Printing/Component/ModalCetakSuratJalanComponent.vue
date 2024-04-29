@@ -28,7 +28,7 @@
             type="button"
             class="btn btn-secondary btn-sm"
             data-bs-dismiss="modal"
-            @click="$store.commit('invoicePrint/reset')"
+            @click="$store.commit('invoicePrint/resetPrintShipping')"
           >
             Batal
           </button>
@@ -48,8 +48,8 @@
 export default {
   methods: {
     cetakShipping() {
+      this.$store.dispatch("invoicePrint/createLogPrint");
       this.printSuratJalan();
-      this.$store.dispatch("invoicePrint/logPrint");
     },
     printSuratJalan() {
       var contents = this.$refs.suratjalan;
