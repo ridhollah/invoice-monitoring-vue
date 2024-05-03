@@ -4,8 +4,9 @@ export default {
   namespaced: true,
   state: {
     search: {
-      count: 100,
-      status: 0,
+      count: 0,
+      status: 99,
+      outlet: "",
     },
     datas: [],
     ttltrx: 0,
@@ -21,8 +22,12 @@ export default {
     alasan: "",
     updateShipping: {},
     updateCustomer: {},
+    level: 0,
   },
   mutations: {
+    setLevel(state, value) {
+      state.level = value;
+    },
     setSearch(state, value) {
       state.search = value;
     },
@@ -53,15 +58,14 @@ export default {
   actions: {
     resetSearchReceipt({ state, dispatch, rootState }) {
       state.search = {
-        count: 100,
-        status: 0,
+        count: 0,
+        status: 99,
         outlet: rootState.authentication.user.outlet,
       };
       dispatch("showReceipt");
     },
-    showReceipt({ commit, state, dispatch, rootState }) {
+    showReceipt({ commit, state, dispatch }) {
       commit("alert/setLoading", true, { root: true });
-      state.search.outlet = rootState.authentication.user.outlet;
       axios
         .post("transaksi/transaksi-data-receipt", state.search)
         .then((res) => {
@@ -123,6 +127,32 @@ export default {
         .catch(() => {
           commit("alert/setLoading", false, { root: true });
         });
+    },
+  },
+  getters: {
+    filterOutlet(state) {
+      const level = [1, 5];
+      return level.includes(state.level);
+    },
+    buttonBayarCicilan(state) {
+      const level = [1, 2, 3, 4];
+      return level.includes(state.level);
+    },
+    buttonPrintInvoice(state) {
+      const level = [1, 2, 3, 4];
+      return level.includes(state.level);
+    },
+    buttonPrintSuratJalan(state) {
+      const level = [1, 2, 3, 4];
+      return level.includes(state.level);
+    },
+    buttonEditCustomer(state) {
+      const level = [1, 2, 3, 4];
+      return level.includes(state.level);
+    },
+    buttonEditSuratJalan(state) {
+      const level = [1, 2, 3, 4];
+      return level.includes(state.level);
     },
   },
 };
