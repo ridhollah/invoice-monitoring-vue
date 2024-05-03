@@ -19,12 +19,12 @@
           class="profile-link"
           :class="[$store.state.sidebar.profile ? 'show' : '']"
         >
-          <!-- <li>
+          <li>
             <router-link to="/member-piutang">
               <i class="fa fa-user icon" style="color: rgb(255, 170, 0)"></i
               >Profile
             </router-link>
-          </li> -->
+          </li>
           <li @click="$store.dispatch('authentication/Logout')">
             <router-link to="/login">
               <i class="fa fa-sign-out icon" style="color: rgb(255, 51, 0)"></i
@@ -63,3 +63,9 @@ export default {
   },
 };
 </script>
+<style scoped>
+ul {
+  margin-bottom: 0 !important;
+  padding-right: 1rem !important;
+}
+</style>

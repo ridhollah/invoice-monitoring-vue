@@ -116,6 +116,9 @@
                       data-bs-target="#modalEditCustomer"
                       data-bs-toggle="modal"
                       data-bs-dismiss="modal"
+                      v-show="
+                        $store.getters['transaksiReceipt/buttonEditCustomer']
+                      "
                     >
                       <i class="fa fa-pencil" aria-hidden="true"></i>
                     </button>
@@ -164,6 +167,9 @@
                       data-bs-target="#modalEditSuratJalan"
                       data-bs-toggle="modal"
                       data-bs-dismiss="modal"
+                      v-show="
+                        $store.getters['transaksiReceipt/buttonEditSuratJalan']
+                      "
                     >
                       <i class="fa fa-pencil" aria-hidden="true"></i>
                     </button>

@@ -24,6 +24,9 @@ export default {
     },
   },
   actions: {
+    setLevel({ commit, state }) {
+      commit("transaksiReceipt/setLevel", state.user.level, { root: true });
+    },
     Login({ commit, state, dispatch }) {
       commit("alert/setLoading", true, { root: true });
       axios
@@ -57,6 +60,7 @@ export default {
             commit("setIsLoggedIn", !state.isLoggedIn);
             commit("alert/setAlertSuccess", res.data, { root: true });
             dispatch("alert/removeAlertSuccess", 1, { root: true });
+            dispatch("setLevel");
           })
           .catch((err) => {
             console.log(err.response.data.code);

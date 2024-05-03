@@ -4,6 +4,21 @@
       <h5 class="fw-500 text-uppercase">Data Transaksi Receipt</h5>
       <div class="divider"></div>
       <div class="d-flex align-items-end">
+        <div
+          class="form-group me-1"
+          v-show="$store.getters['transaksiReceipt/filterOutlet']"
+        >
+          <label for="exampleFormControlInput30">Outlet</label>
+          <input
+            style="font-size: 13px"
+            type="text"
+            class="form-control"
+            id="exampleFormControlInput30"
+            placeholder="Kode Outlet"
+            v-model="search.outlet"
+            @keydown.enter="$store.dispatch('transaksiReceipt/showReceipt')"
+          />
+        </div>
         <div class="form-group me-1">
           <label for="exampleFormControlInput30">Pencarian</label>
           <input
@@ -145,7 +160,12 @@
                     class="dropdown-menu"
                     aria-labelledby="dropdownMenuButton1"
                   >
-                    <li v-if="n && n.status != 1">
+                    <li
+                      v-if="n && n.status != 1"
+                      v-show="
+                        $store.getters['transaksiReceipt/buttonBayarCicilan']
+                      "
+                    >
                       <a
                         class="btn btn-primary btn-sm dropdown-item"
                         @click="pelunasan(n)"
@@ -159,6 +179,9 @@
                         data-bs-toggle="modal"
                         data-bs-target="#invoiceCetak"
                         @click="cetakInvoice(n)"
+                        v-show="
+                          $store.getters['transaksiReceipt/buttonPrintInvoice']
+                        "
                         ><i class="fa fa-file-o me-2" aria-hidden="true"></i
                         >Cetak Invoice</a
                       >
@@ -170,6 +193,11 @@
                         data-bs-target="#suratjalanCetak"
                         @click="cetakShipping(n)"
                         href=""
+                        v-show="
+                          $store.getters[
+                            'transaksiReceipt/buttonPrintSuratJalan'
+                          ]
+                        "
                         ><i class="fa fa-file-o me-2" aria-hidden="true"></i
                         >Cetak Surat Jalan</a
                       >
