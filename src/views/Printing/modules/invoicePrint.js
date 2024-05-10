@@ -64,6 +64,24 @@ export default {
           commit("alert/setLoading", false, { root: true });
         });
     },
+    showPrintInvoiceReturn({ commit }, payload) {
+      commit("resetPrintInvoice");
+      let temp = {
+        Receipt: payload,
+      };
+      commit("alert/setLoading", true, { root: true });
+      axios
+        .post("print/show-print-invoice-return", temp)
+        .then((res) => {
+          commit("alert/setLoading", false, { root: true });
+          commit("setInvoiceHeader", res.data.data.header);
+          commit("setInvoiceCustomer", res.data.data.member);
+          commit("setInvoiceDetails", res.data.data.details);
+        })
+        .catch(() => {
+          commit("alert/setLoading", false, { root: true });
+        });
+    },
     showPrintShipping({ commit }, payload) {
       commit("resetPrintShipping");
       let temp = {
@@ -106,13 +124,13 @@ export default {
         commit("alert/setLoading", false, { root: true });
       }
     },
-    createLogPrint({ commit, state, rootState }) {
+    async createLogPrint({ commit, state, rootState }) {
       let temp = {
         shipping: state.shipping.header.noshipping,
         iduser: rootState.authentication.user.id,
       };
       commit("alert/setLoading", true, { root: true });
-      axios
+      await axios
         .post("shipping/log-print", temp)
         .then(() => {
           commit("alert/setLoading", false, { root: true });

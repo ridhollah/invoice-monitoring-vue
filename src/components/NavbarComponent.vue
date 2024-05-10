@@ -20,10 +20,20 @@
           :class="[$store.state.sidebar.profile ? 'show' : '']"
         >
           <li>
-            <router-link to="/member-piutang">
+            <a
+              href="#"
+              data-bs-toggle="modal"
+              data-bs-target="#updateProfile"
+              @click="
+                $store.dispatch(
+                  'daftarUser/showDetailUser',
+                  $store.state.authentication.user
+                )
+              "
+            >
               <i class="fa fa-user icon" style="color: rgb(255, 170, 0)"></i
               >Profile
-            </router-link>
+            </a>
           </li>
           <li @click="$store.dispatch('authentication/Logout')">
             <router-link to="/login">

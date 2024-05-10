@@ -23,6 +23,7 @@ export default {
     updateShipping: {},
     updateCustomer: {},
     level: 0,
+    testLevel: [1, 2],
   },
   mutations: {
     setLevel(state, value) {
@@ -131,7 +132,7 @@ export default {
   },
   getters: {
     filterOutlet(state) {
-      const level = [1, 5];
+      const level = [1, 2];
       return level.includes(state.level);
     },
     buttonBayarCicilan(state) {

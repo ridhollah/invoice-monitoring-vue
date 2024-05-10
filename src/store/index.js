@@ -13,10 +13,12 @@ import roleUser from "../views/Setup/RoleUser/modules/RoleUser";
 
 // BUAT INVOICE DAN TRX CICILAN
 import invoice from "../views/Invoice/modules/invoice";
+import invoiceReturn from "../views/InvoiceReturn/modules/invoiceReturn";
 import installment from "../views/Installment/modules/installment";
 
 // DOKUMEN
 import transaksiReceipt from "../views/TransaksiReceipt/modules/TransaksiReceipt";
+import transaksiReturn from "../views/TransaksiReturn/modules/TransaksiReturn";
 
 // PIUTANG MEMBER
 import piutang from "../views/Piutang/modules/piutang";
@@ -41,9 +43,11 @@ export default new Vuex.Store({
     helper,
     authentication,
     invoice,
+    invoiceReturn,
     piutang,
     installment,
     transaksiReceipt,
+    transaksiReturn,
     invoicePrint,
     logistik,
     registrasiUser,

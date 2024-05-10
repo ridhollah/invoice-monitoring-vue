@@ -7,6 +7,7 @@
         <router-view></router-view>
       </main>
     </div>
+    <UpdateProfileComponent />
   </div>
 </template>
 <script>

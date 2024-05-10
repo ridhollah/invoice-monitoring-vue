@@ -1,13 +1,13 @@
 export default {
   namespaced: true,
   state: {
-    active: 0,
+    active: 9999,
     profile: false,
   },
   mutations: {
     setActive(state, value) {
       if (state.active == value) {
-        state.active = 0;
+        state.active = 9999;
       } else {
         state.active = value;
       }

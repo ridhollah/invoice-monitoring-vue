@@ -1,16 +1,12 @@
 <template>
   <div class="card">
     <div class="card-body">
-      <h5 class="fw-500 text-uppercase">Data Transaksi Receipt</h5>
+      <h5 class="fw-500 text-uppercase">Data Transaksi Return</h5>
       <div class="divider"></div>
       <div class="d-flex align-items-end">
         <div
           class="form-group me-1"
-          v-show="
-            $store.state.transaksiReceipt.testLevel.includes(
-              $store.state.authentication.user.level
-            )
-          "
+          v-show="$store.getters['transaksiReturn/filterOutlet']"
         >
           <label for="exampleFormControlInput30">Outlet</label>
           <input
@@ -20,7 +16,7 @@
             id="exampleFormControlInput30"
             placeholder="Kode Outlet"
             v-model="search.outlet"
-            @keydown.enter="$store.dispatch('transaksiReceipt/showReceipt')"
+            @keydown.enter="$store.dispatch('transaksiReturn/showReceipt')"
           />
         </div>
         <div class="form-group me-1">
@@ -30,9 +26,9 @@
             type="text"
             class="form-control"
             id="exampleFormControlInput30"
-            placeholder="No Trx / Customer"
+            placeholder="No Return / Nama Cust"
             v-model="search.search"
-            @keydown.enter="$store.dispatch('transaksiReceipt/showReceipt')"
+            @keydown.enter="$store.dispatch('transaksiReturn/showReceipt')"
           />
         </div>
         <div class="form-group me-1">
@@ -42,25 +38,11 @@
             class="form-select"
             aria-label="Default select example"
             v-model="search.count"
-            @change="$store.dispatch('transaksiReceipt/showReceipt')"
+            @change="$store.dispatch('transaksiReturn/showReceipt')"
           >
             <option value="100">100</option>
             <option value="300">300</option>
             <option value="500">500</option>
-            <option value="0">Semua</option>
-          </select>
-        </div>
-        <div class="form-group me-1">
-          <label for="exampleFormControlInput30">Status</label>
-          <select
-            style="font-size: 13px"
-            class="form-select"
-            aria-label="Default select example"
-            v-model="search.status"
-            @change="$store.dispatch('transaksiReceipt/showReceipt')"
-          >
-            <option value="99">Belum Lunas</option>
-            <option value="1">Lunas</option>
             <option value="0">Semua</option>
           </select>
         </div>
@@ -87,14 +69,14 @@
         <button
           type="button"
           class="btn btn-primary btn-sm me-1"
-          @click="$store.dispatch('transaksiReceipt/showReceipt')"
+          @click="$store.dispatch('transaksiReturn/showReceipt')"
         >
           <i class="fa fa-search" aria-hidden="true"></i>
         </button>
         <button
           type="button"
           class="btn btn-secondary btn-sm me-1"
-          @click="$store.dispatch('transaksiReceipt/resetSearchReceipt')"
+          @click="$store.dispatch('transaksiReturn/resetSearchReceipt')"
         >
           <i class="fa fa-refresh" aria-hidden="true"></i>
         </button>
@@ -104,20 +86,26 @@
           <thead>
             <tr class="text-center">
               <th style="width: 8%">Tanggal</th>
-              <th style="width: 12%">No Transaksi</th>
-              <th style="width: 12%">Total Transaksi</th>
-              <th style="width: 12%">Total Bayar</th>
-              <th style="width: 12%">Total Sisa</th>
-              <th style="width: 12%">Customer</th>
-              <th style="width: 5%">Status Trx</th>
-              <th style="width: 10%">No S.Jalan</th>
-              <th style="width: 10%">Status S.Jalan</th>
+              <th style="width: 10%">No Return</th>
+              <th style="width: 10%">Total Return</th>
+              <th style="width: 10%">No Transaksi</th>
+              <th style="width: 20%">Customer</th>
               <th style="width: 5%">Aksi</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(n, index) in datas" :key="index">
               <td class="text-center">{{ n.tgl | formatDt2 }}</td>
+              <td
+                class="text-center text-decoration-underline"
+                style="cursor: pointer"
+                data-bs-toggle="modal"
+                data-bs-target="#modalReturnDetail"
+                @click="$store.dispatch('transaksiReturn/showReceiptDetail', n)"
+              >
+                {{ n.returnno }}
+              </td>
+              <td class="text-end">{{ n.ttlsales | Rupiah2 }}</td>
               <td
                 class="text-center text-decoration-underline"
                 style="cursor: pointer"
@@ -129,24 +117,8 @@
               >
                 {{ n.receipt }}
               </td>
-              <td class="text-end">{{ n.ttlsales | Rupiah2 }}</td>
-              <td class="text-end">{{ n.ttlbayar | Rupiah2 }}</td>
-              <td class="text-end">{{ n.ttlsisa | Rupiah2 }}</td>
-              <td class="text-center">
+              <td class="text-left">
                 {{ n.customer }}
-              </td>
-              <td class="text-center">
-                <span class="badge" :class="n.statuscolor">{{
-                  n.statusname
-                }}</span>
-              </td>
-              <td class="text-center">
-                {{ n.noshipping }}
-              </td>
-              <td class="text-center">
-                <span class="badge" :class="n.statusjcolor">{{
-                  n.statusjname
-                }}</span>
               </td>
               <td class="text-center">
                 <div class="dropdown">
@@ -164,46 +136,14 @@
                     class="dropdown-menu"
                     aria-labelledby="dropdownMenuButton1"
                   >
-                    <li
-                      v-if="n && n.status != 1"
-                      v-show="
-                        $store.getters['transaksiReceipt/buttonBayarCicilan']
-                      "
-                    >
-                      <a
-                        class="btn btn-primary btn-sm dropdown-item"
-                        @click="pelunasan(n)"
-                        ><i class="fa fa-file-o me-2" aria-hidden="true"></i
-                        >Bayar Cicilan</a
-                      >
-                    </li>
                     <li>
                       <a
                         class="btn btn-primary btn-sm dropdown-item"
                         data-bs-toggle="modal"
-                        data-bs-target="#invoiceCetak"
+                        data-bs-target="#invoiceCetakReturn"
                         @click="cetakInvoice(n)"
-                        v-show="
-                          $store.getters['transaksiReceipt/buttonPrintInvoice']
-                        "
                         ><i class="fa fa-file-o me-2" aria-hidden="true"></i
                         >Cetak Invoice</a
-                      >
-                    </li>
-                    <li v-if="n.statusj != 2">
-                      <a
-                        class="btn btn-success btn-sm dropdown-item"
-                        data-bs-toggle="modal"
-                        data-bs-target="#suratjalanCetak"
-                        @click="cetakShipping(n)"
-                        href=""
-                        v-show="
-                          $store.getters[
-                            'transaksiReceipt/buttonPrintSuratJalan'
-                          ]
-                        "
-                        ><i class="fa fa-file-o me-2" aria-hidden="true"></i
-                        >Cetak Surat Jalan</a
                       >
                     </li>
                   </ul>
@@ -214,12 +154,9 @@
         </table>
       </div>
     </div>
-    <ModalEditCustomerComponent />
-    <ModalEditSuratJalanComponent />
     <ReceiptDetailComponent />
-    <ModalDescriptComponent />
-    <ModalCetakInvoiceComponent />
-    <ModalCetakSuratJalanComponent />
+    <ReturnDetailComponent />
+    <ModalCetakInvoiceReturnComponent />
   </div>
 </template>
 <script>
@@ -227,41 +164,26 @@ export default {
   methods: {
     cetakInvoice(n) {
       let params = {
-        Receipt: n.receipt,
+        Receipt: n.returnno,
       };
-      this.$store.dispatch("invoicePrint/showPrintInvoice", params);
-    },
-    cetakShipping(n) {
-      let params = {
-        Receipt: n.receipt,
-      };
-      this.$store.dispatch("invoicePrint/createNoShipping", n);
-      this.$store.dispatch("invoicePrint/showPrintShipping", params);
-    },
-    pelunasan(n) {
-      this.$router.push({
-        name: "cicilan-transaksi",
-        params: {
-          Receipt: n.receipt,
-        },
-      });
+      this.$store.dispatch("invoicePrint/showPrintInvoiceReturn", params);
     },
   },
   computed: {
     datas() {
-      return this.$store.state.transaksiReceipt.datas;
+      return this.$store.state.transaksiReturn.datas;
     },
     search: {
       get() {
-        return this.$store.state.transaksiReceipt.search;
+        return this.$store.state.transaksiReturn.search;
       },
       set(value) {
-        return this.$store.commit("transaksiReceipt/setSearch", value);
+        return this.$store.commit("transaksiReturn/setSearch", value);
       },
     },
   },
   created() {
-    this.$store.dispatch("transaksiReceipt/resetSearchReceipt");
+    this.$store.dispatch("transaksiReturn/resetSearchReceipt");
   },
 };
 </script>

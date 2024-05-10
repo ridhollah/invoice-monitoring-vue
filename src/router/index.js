@@ -5,6 +5,7 @@ import store from "../store/index";
 import LoginView from "../views/Authentication/LoginView.vue";
 import DashboardView from "../views/Dashboard/DashboardView.vue";
 import InvoiceView from "../views/Invoice/InvoiceView.vue";
+import InvoiceReturnView from "../views/InvoiceReturn/InvoiceReturnView.vue";
 import SaldoPiutangView from "../views/Piutang/MemberPiutangView.vue";
 import DaftarMemberPiutangView from "../views/Piutang/MemberDaftarPiutangViews.vue";
 import InstallmentView from "../views/Installment/InstallmentView.vue";
@@ -21,6 +22,8 @@ import RegistrasiUserView from "@/views/Setup/RegistrasiUser/RegistrasiUserView.
 import DaftarUser from "@/views/Setup/DaftarUser/DaftarUserView.vue";
 import RoleUserView from "@/views/Setup/RoleUser/RoleUserView.vue";
 import LaporanSuratJalanView from "@/views/Laporan/LaporanSuratJalan/LaporanSuratJalanView.vue";
+import PreviewReturn from "@/views/Printing/PreviewReturn.vue";
+import TransaksiReturnView from "@/views/TransaksiReturn/TransaksiReturnView.vue";
 
 Vue.use(VueRouter);
 
@@ -48,14 +51,24 @@ const routes = [
         component: DashboardView,
       },
       {
-        path: "/invoice",
+        path: "/invoice-sales",
         name: "invoice",
         component: InvoiceView,
+      },
+      {
+        path: "/invoice-return",
+        name: "invoiceReturn",
+        component: InvoiceReturnView,
       },
       {
         path: "/preview/:Receipt",
         name: "preview",
         component: Preview,
+      },
+      {
+        path: "/preview-return/:Receipt",
+        name: "preview-return",
+        component: PreviewReturn,
       },
       {
         path: "/member-piutang",
@@ -81,6 +94,11 @@ const routes = [
         path: "/data-transaksi-receipt",
         name: "data-transaksi-receipt",
         component: DataTransaksiReceipt,
+      },
+      {
+        path: "/data-transaksi-return",
+        name: "data-transaksi-return",
+        component: TransaksiReturnView,
       },
       {
         path: "/laporan-receipt",

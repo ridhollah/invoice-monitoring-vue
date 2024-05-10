@@ -86,6 +86,27 @@ export default {
           return err.response;
         });
     },
+    updateProfile({ commit, dispatch, rootState, state }) {
+      commit("alert/setLoading", true, { root: true });
+      let temp = {
+        detail: rootState.daftarUser.detail,
+        iduser: rootState.authentication.user.id,
+      };
+      axios
+        .post("user/user-profile-update", temp)
+        .then((res) => {
+          commit("alert/setLoading", false, { root: true });
+          commit("alert/setAlertSuccess", res.data, { root: true });
+          dispatch("alert/removeAlertSuccess", 1, { root: true });
+          dispatch("showUserByToken");
+          commit("setIsLoggedIn", !state.isLoggedIn);
+        })
+        .catch((err) => {
+          commit("alert/setLoading", false, { root: true });
+          commit("alert/setAlertError", err.response.data, { root: true });
+          dispatch("alert/removeAlertError", 0, { root: true });
+        });
+    },
   },
   getters: {
     isLoggedIn(state) {
