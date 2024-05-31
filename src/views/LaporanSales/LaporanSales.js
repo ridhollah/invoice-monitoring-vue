@@ -3,12 +3,10 @@ import axios from "axios";
 export default {
   namespaced: true,
   state: {
-    search: {
-      search: "",
-    },
+    search: {},
     datas: [],
-    detail: {},
     level: 0,
+    total: 0,
   },
   mutations: {
     setLevel(state, value) {
@@ -20,22 +18,21 @@ export default {
     setDatas(state, value) {
       state.datas = value;
     },
-    setDetail(state, value) {
-      state.detail = value;
+    setTotal(state, value) {
+      state.total = value;
     },
   },
   actions: {
-    resetSearch({ dispatch, state, rootState }) {
+    resetLaporan({ state, rootState }) {
       state.search = {
-        search: "",
         outlet: rootState.authentication.user.outlet,
       };
-      dispatch("showListUser");
+      state.datas = [];
     },
-    showListUser({ commit, state, dispatch }) {
+    showLaporanSalesByProduk({ commit, state, dispatch }) {
       commit("alert/setLoading", true, { root: true });
       axios
-        .post("user/user-list", state.search)
+        .post("report/byProduk", state.search)
         .then((res) => {
           commit("alert/setLoading", false, { root: true });
           commit("setDatas", res.data.data);
@@ -46,14 +43,13 @@ export default {
           dispatch("alert/removeAlertError", 0, { root: true });
         });
     },
-    showDetailUser({ commit, dispatch }, payload) {
-      commit("setDetail", {});
+    showLaporanSalesByPayment({ commit, state, dispatch }) {
       commit("alert/setLoading", true, { root: true });
       axios
-        .post("user/user-detail", payload)
+        .post("report/byPayment", state.search)
         .then((res) => {
           commit("alert/setLoading", false, { root: true });
-          commit("setDetail", res.data.data);
+          commit("setDatas", res.data.data);
         })
         .catch((err) => {
           commit("alert/setLoading", false, { root: true });
@@ -61,35 +57,50 @@ export default {
           dispatch("alert/removeAlertError", 0, { root: true });
         });
     },
-    updateDetailUser({ commit, dispatch, state, rootState }) {
+    showLaporanSalesByPerson({ commit, state, dispatch }) {
       commit("alert/setLoading", true, { root: true });
-      let temp = {
-        detail: state.detail,
-        iduser: rootState.authentication.user.id,
-      };
       axios
-        .post("user/user-detail-update", temp)
+        .post("report/byPerson", state.search)
         .then((res) => {
           commit("alert/setLoading", false, { root: true });
-          commit("alert/setAlertSuccess", res.data, { root: true });
-          dispatch("alert/removeAlertSuccess", 1, { root: true });
-          commit("setDetail", res.data.data);
-          dispatch("showListUser");
+          commit("setDatas", res.data.data);
         })
         .catch((err) => {
           commit("alert/setLoading", false, { root: true });
           commit("alert/setAlertError", err.response.data, { root: true });
           dispatch("alert/removeAlertError", 0, { root: true });
+        });
+    },
+    showLaporanSalesByMarchine({ commit, state, dispatch }) {
+      commit("alert/setLoading", true, { root: true });
+      axios
+        .post("report/byMarchine", state.search)
+        .then((res) => {
+          commit("alert/setLoading", false, { root: true });
+          commit("setDatas", res.data.data);
+        })
+        .catch((err) => {
+          commit("alert/setLoading", false, { root: true });
+          commit("alert/setAlertError", err.response.data, { root: true });
+          dispatch("alert/removeAlertError", 0, { root: true });
+        });
+    },
+    showLaporanCashCount({ commit }, payload) {
+      axios
+        .post("report/cashcount", payload)
+        .then((res) => {
+          console.log(res.data);
+          commit("setDatas", res.data.data.payment);
+          commit("setTotal", res.data.data.total.ttlbayar);
+        })
+        .catch((err) => {
+          commit("setDatas", err.response.data);
         });
     },
   },
   getters: {
     filterOutlet(state) {
-      const level = [1];
-      return level.includes(state.level);
-    },
-    filterEdit(state) {
-      const level = [1, 2];
+      const level = [1, 5];
       return level.includes(state.level);
     },
   },

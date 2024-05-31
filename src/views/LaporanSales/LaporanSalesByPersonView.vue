@@ -5,6 +5,19 @@
       <div class="divider"></div>
       <div class="d-flex align-items-end justify-content-between">
         <div class="d-flex align-items-end">
+          <div
+            class="form-group me-1"
+            v-show="$store.getters['laporanSales/filterOutlet']"
+          >
+            <label for="exampleFormControlInput30">Outlet</label>
+            <input
+              style="font-size: 13px"
+              type="text"
+              class="form-control"
+              id="exampleFormControlInput30"
+              v-model="search.outlet"
+            />
+          </div>
           <div class="form-group me-1">
             <label for="exampleFormControlInput30">Tanggal awal</label>
             <input
@@ -28,7 +41,7 @@
           <button
             type="button"
             class="btn btn-primary btn-sm me-1"
-            @click="$store.dispatch('laporanSales/showLaporan')"
+            @click="$store.dispatch('laporanSales/showLaporanSalesByPerson')"
           >
             <i class="fa fa-search" aria-hidden="true"></i>
           </button>
@@ -46,8 +59,16 @@
             class="btn btn-secondary btn-sm me-1"
             @click="exportExcel"
           >
-            <i class="fa fa-files-o icon" aria-hidden="true"></i>
+            <i class="fa fa-file-o icon" aria-hidden="true"></i>
             Excel
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary btn-sm me-1"
+            @click="exportCsv"
+          >
+            <i class="fa fa-file-o icon" aria-hidden="true"></i>
+            Csv
           </button>
           <button
             type="button"
@@ -55,7 +76,7 @@
             @click="print"
           >
             <i class="fa fa-file-o icon" aria-hidden="true"></i>
-            Cetak
+            Pdf
           </button>
         </div>
       </div>
@@ -63,6 +84,7 @@
         <table class="table table-hover table-striped table-bordered">
           <thead>
             <tr class="text-center">
+              <th style="width: 5%">Outlet</th>
               <th style="width: 5%">Kode</th>
               <th style="width: 15%">Nama</th>
               <th style="width: 15%">Posisi</th>
@@ -73,6 +95,7 @@
           </thead>
           <tbody>
             <tr v-for="(n, index) in datas" :key="index">
+              <td>{{ n.Outlet }}</td>
               <td>{{ n.User }}</td>
               <td>{{ n.Name }}</td>
               <td>{{ n.Position }}</td>
@@ -99,6 +122,7 @@
           <table class="table table-bordered" style="font-size: 12px">
             <thead>
               <tr class="text-center">
+                <th style="width: 5%">Outlet</th>
                 <th style="width: 5%">Kode</th>
                 <th style="width: 15%">Nama</th>
                 <th style="width: 15%">Posisi</th>
@@ -109,6 +133,7 @@
             </thead>
             <tbody>
               <tr v-for="(n, index) in datas" :key="index">
+                <td>{{ n.Outlet }}</td>
                 <td>{{ n.User }}</td>
                 <td>{{ n.Name }}</td>
                 <td>{{ n.Position }}</td>
@@ -125,7 +150,14 @@
   </div>
 </template>
 <script>
+import Export from "@/services/Export";
+import Print from "@/services/Print";
 export default {
+  data() {
+    return {
+      show: false,
+    };
+  },
   computed: {
     datas() {
       return this.$store.state.laporanSales.datas;
@@ -141,75 +173,17 @@ export default {
   },
   methods: {
     print() {
-      var contents = this.$refs.cetak;
-      let frame1 = document.createElement("iframe");
-      frame1.name = "frame1";
-      frame1.style.position = "absolute";
-      frame1.style.top = "-1000000px";
-      document.body.appendChild(frame1);
-      let frameDoc = frame1.contentWindow
-        ? frame1.contentWindow
-        : frame1.contentDocument.document
-        ? frame1.contentDocument.document
-        : frame1.contentDocument;
-      frameDoc.document.open();
-      frameDoc.document.write(
-        '<html lang="en"><head><title>Print Image Maintenance</title>'
-      );
-      frameDoc.document.write(
-        // '<link rel="stylesheet" href="http://172.27.1.31:8080/css/invoice.css"/>',
-        // '<link rel="stylesheet" href="http://172.27.1.31:8080/css/bootstrap.css"/>'
-        '<link rel="stylesheet" href="http://dp.suzuya.co.id/css/bootstrap.css"/>'
-      );
-      frameDoc.document.write("</head><body>");
-      frameDoc.document.write(contents.outerHTML);
-      frameDoc.document.write("</body></html>");
-      frameDoc.document.close();
-      setTimeout(function () {
-        window.frames["frame1"].focus();
-        window.frames["frame1"].print();
-        document.body.removeChild(frame1);
-      }, 500);
-      return false;
+      Print.printLaporan(this.$refs.cetak);
+    },
+    exportCsv() {
+      Export.exportCsv(this.datas, "Laporan_Transaksi_By_Person.csv");
     },
     exportExcel() {
-      import("@/services/Export2Excel").then((excel) => {
-        const header = [
-          "Kode Sales",
-          "Nama Sales",
-          "Posisi",
-          "Internal",
-          "Nama Barang",
-          "Quantity",
-          "Total Penjualan",
-        ];
-        const field = [
-          "User",
-          "Name",
-          "Position",
-          "Internal",
-          "Descript",
-          "sumqty",
-          "netsales",
-        ];
-        const data = this.formatJson(field, this.datas);
-        excel.export_json_to_excel({
-          header: header,
-          data: data,
-          sheetName: `LAPORAN PENJUALAN SALES`,
-          filename: `LAPORAN PENJUALAN SALES ${this.search.tglawal} - ${this.search.tglakhir}`,
-          autoWidth: true,
-          bookType: "xlsx",
-        });
-      });
+      Export.exportExcels(this.datas);
     },
-    formatJson(filterData, jsonData) {
-      return jsonData.map((v) =>
-        filterData.map((j) => {
-          return v[j];
-        })
-      );
-    },
+  },
+  created() {
+    this.$store.dispatch("laporanSales/resetLaporan");
   },
 };
 </script>

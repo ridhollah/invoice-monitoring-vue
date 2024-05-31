@@ -18,8 +18,12 @@ export default {
     },
     checkedProduk: false,
     shippingProduk: [],
+    level: 0,
   },
   mutations: {
+    setLevel(state, value) {
+      state.level = value;
+    },
     setForm(state, value) {
       state.form = value;
     },
@@ -89,9 +93,21 @@ export default {
     },
   },
   actions: {
-    searchNewTrx({ commit, state, dispatch, rootState }) {
+    resetForm({ state, rootState }) {
+      state.form = {
+        outlet: rootState.authentication.user.outlet,
+      };
+      state.header = {};
+      state.member = {};
+      state.details = [];
+      state.payment = {};
+      state.alamatJasa.name = "";
+      state.alamatJasa.address = "";
+      state.alamatJasa.nohp = "";
+      state.alamatJasa.datesend = "";
+    },
+    searchNewTrx({ commit, state, dispatch }) {
       commit("alert/setLoading", true, { root: true });
-      state.form.outlet = rootState.authentication.user.outlet;
       axios
         .post("return/search", state.form)
         .then((res) => {
@@ -107,7 +123,7 @@ export default {
           dispatch("alert/removeAlertError", 0, { root: true });
         });
     },
-    saveNewTrx({ commit, state, dispatch, rootState }) {
+    saveNewTrx({ commit, state, dispatch, rootState }, payload) {
       let temp = {
         iduser: rootState.authentication.user.id,
         outlet: rootState.authentication.user.outlet,
@@ -115,9 +131,7 @@ export default {
         member: state.member,
         payment: state.payment,
         detail: state.details,
-        // alamatjasa: state.alamatJasa,
-        // stsproduk: state.checkedProduk,
-        // shippingProduk: state.shippingProduk,
+        potong: payload,
       };
       commit("alert/setLoading", true, { root: true });
       axios
@@ -159,6 +173,10 @@ export default {
         : state.header.Member == null
         ? 0
         : 1;
+    },
+    filterOutlet(state) {
+      const level = [1];
+      return level.includes(state.level);
     },
   },
 };

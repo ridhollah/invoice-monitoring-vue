@@ -16,7 +16,6 @@
             id="exampleFormControlInput30"
             placeholder="Kode Outlet"
             v-model="search.outlet"
-            @keydown.enter="$store.dispatch('transaksiReturn/showReceipt')"
           />
         </div>
         <div class="form-group me-1">
@@ -28,7 +27,6 @@
             id="exampleFormControlInput30"
             placeholder="No Return / Nama Cust"
             v-model="search.search"
-            @keydown.enter="$store.dispatch('transaksiReturn/showReceipt')"
           />
         </div>
         <div class="form-group me-1">
@@ -38,7 +36,6 @@
             class="form-select"
             aria-label="Default select example"
             v-model="search.count"
-            @change="$store.dispatch('transaksiReturn/showReceipt')"
           >
             <option value="100">100</option>
             <option value="300">300</option>

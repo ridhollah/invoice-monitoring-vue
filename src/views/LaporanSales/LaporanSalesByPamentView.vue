@@ -5,6 +5,19 @@
       <div class="divider"></div>
       <div class="d-flex align-items-end justify-content-between">
         <div class="d-flex align-items-end">
+          <div
+            class="form-group me-1"
+            v-show="$store.getters['laporanSales/filterOutlet']"
+          >
+            <label for="exampleFormControlInput30">Outlet</label>
+            <input
+              style="font-size: 13px"
+              type="text"
+              class="form-control"
+              id="exampleFormControlInput30"
+              v-model="search.outlet"
+            />
+          </div>
           <div class="form-group me-1">
             <label for="exampleFormControlInput30">Tanggal awal</label>
             <input
@@ -28,33 +41,25 @@
           <button
             type="button"
             class="btn btn-primary btn-sm me-1"
-            @click="$store.dispatch('laporanPembayaran/LaporanPembayaran')"
+            @click="$store.dispatch('laporanSales/showLaporanSalesByPayment')"
           >
             <i class="fa fa-search" aria-hidden="true"></i>
           </button>
           <button
             type="button"
             class="btn btn-secondary btn-sm me-1"
-            @click="$store.dispatch('laporanPembayaran/resetLaporan')"
+            @click="$store.dispatch('laporanSales/resetLaporan')"
           >
             <i class="fa fa-refresh" aria-hidden="true"></i>
           </button>
         </div>
         <div class="text-end">
-          <!-- <button type="button" class="btn btn-secondary btn-sm me-1">
-            <i class="fa fa-refresh" aria-hidden="true"></i>
-            PDF
-          </button>
-          <button type="button" class="btn btn-secondary btn-sm me-1">
-            <i class="fa fa-refresh" aria-hidden="true"></i>
-            SCV
-          </button> -->
           <button
             type="button"
             class="btn btn-secondary btn-sm me-1"
             @click="exportExcel"
           >
-            <i class="fa fa-files-o icon" aria-hidden="true"></i>
+            <i class="fa fa-file-o icon" aria-hidden="true"></i>
             Excel
           </button>
           <button
@@ -62,7 +67,7 @@
             class="btn btn-secondary btn-sm me-1"
             @click="exportCsv"
           >
-            <i class="fa fa-files-o icon" aria-hidden="true"></i>
+            <i class="fa fa-file-o icon" aria-hidden="true"></i>
             Csv
           </button>
           <button
@@ -71,7 +76,7 @@
             @click="print"
           >
             <i class="fa fa-file-o icon" aria-hidden="true"></i>
-            Cetak
+            Pdf
           </button>
         </div>
       </div>
@@ -130,8 +135,10 @@
   </div>
 </template>
 <script>
+import Export from "@/services/Export";
+import Print from "@/services/Print";
 export default {
-  name: "LaporanPembayaranView",
+  name: "LaporanSalesByPaymentView",
   data() {
     return {
       show: false,
@@ -139,93 +146,30 @@ export default {
   },
   computed: {
     datas() {
-      return this.$store.state.laporanPembayaran.datas;
+      return this.$store.state.laporanSales.datas;
     },
     search: {
       get() {
-        return this.$store.state.laporanPembayaran.search;
+        return this.$store.state.laporanSales.search;
       },
       set(value) {
-        return this.$store.commit("laporanPembayaran/setSearch", value);
+        return this.$store.commit("laporanSales/setSearch", value);
       },
     },
   },
   methods: {
     print() {
-      var contents = this.$refs.cetak;
-      let frame1 = document.createElement("iframe");
-      frame1.name = "frame1";
-      frame1.style.position = "absolute";
-      frame1.style.top = "-1000000px";
-      document.body.appendChild(frame1);
-      let frameDoc = frame1.contentWindow
-        ? frame1.contentWindow
-        : frame1.contentDocument.document
-        ? frame1.contentDocument.document
-        : frame1.contentDocument;
-      frameDoc.document.open();
-      frameDoc.document.write(
-        '<html lang="en"><head><title>Print Image Maintenance</title>'
-      );
-      frameDoc.document.write(
-        // '<link rel="stylesheet" href="http://172.27.1.31:8080/css/invoice.css"/>',
-        // '<link rel="stylesheet" href="http://172.27.1.31:8080/css/bootstrap.css"/>'
-        '<link rel="stylesheet" href="http://dp.suzuya.co.id/css/bootstrap.css"/>'
-      );
-      frameDoc.document.write("</head><body>");
-      frameDoc.document.write(contents.outerHTML);
-      frameDoc.document.write("</body></html>");
-      frameDoc.document.close();
-      setTimeout(function () {
-        window.frames["frame1"].focus();
-        window.frames["frame1"].print();
-        document.body.removeChild(frame1);
-      }, 500);
-      return false;
-    },
-    exportExcel() {
-      import("@/services/Export2Excel").then((excel) => {
-        const header = ["outlet", "tendertype", "tendername", "ttlbayar"];
-        const field = ["outlet", "tendertype", "tendername", "ttlbayar"];
-        const data = this.formatJson(field, this.datas);
-
-        const tglawal = this.search.tglawal ? this.search.tglawal : "";
-        const tglakhir = this.search.tglakhir ? this.search.tglakhir : "";
-
-        excel.export_json_to_excel({
-          header: header,
-          data: data,
-          sheetName: `LAPORAN TRANSAKSI BY PAYMENT`,
-          filename: `LAPORAN TRANSAKSI BY PAYMENT PRIODE : ${tglawal} - ${tglakhir}`,
-          autoWidth: true,
-          bookType: "xlsx",
-        });
-      });
-    },
-    formatJson(filterData, jsonData) {
-      return jsonData.map((v) =>
-        filterData.map((j) => {
-          return v[j];
-        })
-      );
+      Print.printLaporan(this.$refs.cetak);
     },
     exportCsv() {
-      const datas = this.datas;
-      const csvContent = this.convertToSCV(datas);
-      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "Laporan_Transaksi_By_Payment.csv");
-      link.click();
+      Export.exportCsv(this.datas, "Laporan_Transaksi_By_Payment.csv");
     },
-    convertToSCV(data) {
-      const header = Object.keys(data[0]);
-      const rows = data.map((obj) => header.map((h) => obj[h]));
-      const headerRow = header.join(",");
-      const csvRows = [headerRow, ...rows.map((row) => row.join(","))];
-      return csvRows.join("\n");
+    exportExcel() {
+      Export.exportExcels(this.datas);
     },
+  },
+  created() {
+    this.$store.dispatch("laporanSales/resetLaporan");
   },
 };
 </script>

@@ -50,7 +50,7 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import Print from "@/services/Print";
 export default {
   name: "PreviewView",
   data() {
@@ -59,9 +59,9 @@ export default {
     };
   },
   computed: {
-    ...mapState({
-      header: (state) => state.invoicePrint.invoice.header,
-    }),
+    header() {
+      return this.$store.state.invoicePrint.invoice.header;
+    },
   },
   created() {
     let params = {
@@ -73,71 +73,11 @@ export default {
   },
   methods: {
     printInvoice() {
-      var contents = this.$refs.invoice;
-      let frame1 = document.createElement("iframe");
-      frame1.name = "frame1";
-      frame1.style.position = "absolute";
-      frame1.style.top = "-1000000px";
-      document.body.appendChild(frame1);
-      let frameDoc = frame1.contentWindow
-        ? frame1.contentWindow
-        : frame1.contentDocument.document
-        ? frame1.contentDocument.document
-        : frame1.contentDocument;
-      frameDoc.document.open();
-      frameDoc.document.write(
-        '<html lang="en"><head><title>Print Image Maintenance</title>'
-      );
-      frameDoc.document.write(
-        // '<link rel="stylesheet" href="http://172.27.1.31:8080/css/invoice.css"/>',
-        // '<link rel="stylesheet" href="http://172.27.1.31:8080/css/bootstrap.css"/>'
-        '<link rel="stylesheet" href="https://dp.suzuyagroup.com/css/invoice.css"/>',
-        '<link rel="stylesheet" href="https://dp.suzuyagroup.com/css/bootstrap.css"/>'
-      );
-      frameDoc.document.write("</head><body>");
-      frameDoc.document.write(contents.outerHTML);
-      frameDoc.document.write("</body></html>");
-      frameDoc.document.close();
-      setTimeout(function () {
-        window.frames["frame1"].focus();
-        window.frames["frame1"].print();
-        document.body.removeChild(frame1);
-      }, 500);
-      return false;
+      Print.printInvoice(this.$refs.invoice);
     },
     printSuratJalan() {
       this.$store.dispatch("invoicePrint/createLogPrint");
-      var contents = this.$refs.sjalan;
-      let frame1 = document.createElement("iframe");
-      frame1.name = "frame1";
-      frame1.style.position = "absolute";
-      frame1.style.top = "-1000000px";
-      document.body.appendChild(frame1);
-      let frameDoc = frame1.contentWindow
-        ? frame1.contentWindow
-        : frame1.contentDocument.document
-        ? frame1.contentDocument.document
-        : frame1.contentDocument;
-      frameDoc.document.open();
-      frameDoc.document.write(
-        '<html lang="en"><head><title>Print Image Maintenance</title>'
-      );
-      frameDoc.document.write(
-        // '<link rel="stylesheet" href="http://172.27.1.31:8080/css/invoice.css"/>',
-        // '<link rel="stylesheet" href="http://172.27.1.31:8080/css/bootstrap.css"/>'
-        '<link rel="stylesheet" href="https://dp.suzuyagroup.com/css/invoice.css"/>',
-        '<link rel="stylesheet" href="https://dp.suzuyagroup.com/css/bootstrap.css"/>'
-      );
-      frameDoc.document.write("</head><body>");
-      frameDoc.document.write(contents.outerHTML);
-      frameDoc.document.write("</body></html>");
-      frameDoc.document.close();
-      setTimeout(function () {
-        window.frames["frame1"].focus();
-        window.frames["frame1"].print();
-        document.body.removeChild(frame1);
-      }, 500);
-      return false;
+      Print.printSuratJalan(this.$refs.sjalan);
     },
   },
 };

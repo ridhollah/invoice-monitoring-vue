@@ -3,15 +3,23 @@
     <div class="card-body">
       <div>
         <h5 class="fw-500 text-uppercase me-3">Logistik</h5>
-        <!-- <div class="d-lg-flex">
-          <button class="btn btn-outline-primary btn-sm me-3">
-            Transaksi Masuk
-          </button>
-          <button class="btn btn-outline-primary btn-sm">Daftar Barang</button>
-        </div> -->
       </div>
       <div class="divider"></div>
       <div class="d-flex align-items-end">
+        <div
+          class="form-group me-1"
+          v-show="$store.getters['logistik/filterOutlet']"
+        >
+          <label for="exampleFormControlInput1">Outlet</label>
+          <input
+            style="font-size: 13px"
+            type="text"
+            class="form-control"
+            id="exampleFormControlInput1"
+            placeholder="Outlet"
+            v-model="search.outlet"
+          />
+        </div>
         <div class="form-group me-1">
           <label for="exampleFormControlInput30">Pencarian</label>
           <input
@@ -21,7 +29,6 @@
             id="exampleFormControlInput30"
             placeholder="No Transaksi"
             v-model="search.search"
-            @keydown.enter="$store.dispatch('logistik/showTrx')"
           />
         </div>
         <div class="form-group me-1">
@@ -133,6 +140,7 @@
                   data-bs-target="#logistik"
                   @click="$store.dispatch('logistik/detailTrx', n)"
                   style="font-size: 10px"
+                  v-show="$store.getters['logistik/filterQc']"
                 >
                   <i class="fa fa-cog" aria-hidden="true"></i>
                   qc
@@ -144,6 +152,7 @@
                   @click="cetakShipping(n)"
                   style="font-size: 10px"
                   v-if="n.statusfix == 3"
+                  v-show="$store.getters['logistik/filterSuratJalan']"
                 >
                   <i class="fa fa-file-o me-1" aria-hidden="true"></i
                   ><span>Surat Jalan</span>
@@ -155,6 +164,7 @@
                   @click="$store.commit('logistik/setidConfirm', n)"
                   style="font-size: 10px"
                   v-if="n.statusfix == 3 && n.noshipping"
+                  v-show="$store.getters['logistik/filterConfirm']"
                 >
                   <i class="fa fa-file-o me-1" aria-hidden="true"></i
                   ><span>Confirm</span>
@@ -195,7 +205,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("logistik/showTrx");
+    this.$store.dispatch("logistik/resetLogistik");
   },
 };
 </script>

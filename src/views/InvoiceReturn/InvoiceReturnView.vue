@@ -6,6 +6,20 @@
         <div class="divider"></div>
         <div class="d-flex justify-content-between">
           <div class="d-lg-flex align-items-end">
+            <div
+              class="form-group me-1"
+              v-show="$store.getters['invoiceReturn/filterOutlet']"
+            >
+              <label for="exampleFormControlInput1">Outlet</label>
+              <input
+                style="font-size: 13px"
+                type="text"
+                class="form-control"
+                id="exampleFormControlInput1"
+                placeholder="Outlet"
+                v-model="form.outlet"
+              />
+            </div>
             <div class="form-group me-1">
               <label for="exampleFormControlInput1">Pencarian</label>
               <input
@@ -15,7 +29,6 @@
                 id="exampleFormControlInput1"
                 placeholder="No Sales Return"
                 v-model="form.nosales"
-                @keydown.enter="$store.dispatch('invoiceReturn/searchNewTrx')"
               />
             </div>
             <button
@@ -36,7 +49,16 @@
           <div class="d-lg-flex align-items-end">
             <button
               class="btn btn-primary btn-sm"
-              @click="$store.dispatch('invoiceReturn/saveNewTrx')"
+              @click="$store.dispatch('invoiceReturn/saveNewTrx', 0)"
+              v-if="header && header.sisacicilan == 0"
+            >
+              Simpan & Cetak
+            </button>
+            <button
+              class="btn btn-primary btn-sm"
+              data-bs-toggle="modal"
+              data-bs-target="#modalSaveReturn"
+              v-if="header && header.sisacicilan != 0"
             >
               Simpan & Cetak
             </button>
@@ -60,12 +82,16 @@
         </div>
       </div>
     </div>
+    <ModalSaveReturnComponent />
   </div>
 </template>
 <script>
 export default {
   name: "InvoiceReturnView",
   computed: {
+    header() {
+      return this.$store.state.invoiceReturn.header;
+    },
     form: {
       get() {
         return this.$store.state.invoiceReturn.form;
@@ -76,7 +102,7 @@ export default {
     },
   },
   created() {
-    this.$store.commit("invoiceReturn/resetNewTrx");
+    this.$store.dispatch("invoiceReturn/resetForm");
   },
 };
 </script>

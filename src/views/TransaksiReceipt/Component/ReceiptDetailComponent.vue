@@ -272,10 +272,6 @@
             <div class="col-lg-3 ps-2">
               <div class="card">
                 <div class="card-body">
-                  <!-- <div class="d-lg-flex justify-content-between">
-                    <label class="label font-monospace">Sub Total</label>
-                    <p class="fw-bold r-12">{{ price.ttlsales | Rupiah }}</p>
-                  </div> -->
                   <div
                     class="d-lg-flex justify-content-between mt-2"
                     v-if="price.ttldisc && price.ttldisc > 0"
@@ -324,13 +320,16 @@
                     <label class="label font-monospace">Jumlah Transaksi</label>
                     <p class="fw-bold r-12">{{ price.ttlsales | Rupiah }}</p>
                   </div>
-                  <div class="d-lg-flex justify-content-between mt-2">
+                  <div
+                    class="d-lg-flex justify-content-between mt-2"
+                    v-if="price.ttlbayar && price.ttlbayar != 0"
+                  >
                     <label class="label font-monospace">Jumlah Bayar</label>
                     <p class="fw-bold r-12">{{ price.ttlbayar | Rupiah }}</p>
                   </div>
                   <div
                     class="d-lg-flex justify-content-between mt-2"
-                    v-if="price.ttlsisa != 0"
+                    v-if="price.ttlsisa && price.ttlsisa != 0"
                   >
                     <label class="label font-monospace">Jumlah Sisa</label>
                     <p class="fw-bold r-12">{{ price.ttlsisa | Rupiah }}</p>

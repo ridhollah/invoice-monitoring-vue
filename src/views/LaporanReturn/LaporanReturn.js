@@ -3,17 +3,8 @@ import axios from "axios";
 export default {
   namespaced: true,
   state: {
-    search: {
-      count: 100,
-      // status: 99,
-      outlet: "",
-    },
+    search: {},
     datas: [],
-    details: {
-      header: {},
-      barang: [],
-      payment: [],
-    },
     level: 0,
   },
   mutations: {
@@ -24,26 +15,20 @@ export default {
       state.search = value;
     },
     setDatas(state, value) {
-      state.datas = value.data.data;
-    },
-    setDetails(state, value) {
-      state.details.header = value.header;
-      state.details.barang = value.details;
-      state.details.payment = value.payment;
+      state.datas = value.data;
     },
   },
   actions: {
-    resetSearchReceipt({ state, dispatch, rootState }) {
+    resetLaporan({ state, rootState }) {
       state.search = {
-        count: 100,
         outlet: rootState.authentication.user.outlet,
       };
-      dispatch("showReceipt");
+      state.datas = [];
     },
-    showReceipt({ commit, state, dispatch }) {
+    showLaporanReturnByProduk({ commit, state, dispatch }) {
       commit("alert/setLoading", true, { root: true });
       axios
-        .post("return/transaksi-data-return", state.search)
+        .post("report/returnByProduk", state.search)
         .then((res) => {
           commit("alert/setLoading", false, { root: true });
           commit("setDatas", res.data);
@@ -54,20 +39,18 @@ export default {
           dispatch("alert/removeAlertError", 0, { root: true });
         });
     },
-    showReceiptDetail({ commit }, payload) {
-      payload = {
-        receipt: payload,
-      };
+    showLaporanReturnByPayment({ commit, state, dispatch }) {
       commit("alert/setLoading", true, { root: true });
       axios
-        .post("return/transaksi-data-return-detail", payload)
+        .post("report/returnByPayment", state.search)
         .then((res) => {
           commit("alert/setLoading", false, { root: true });
-          commit("setDetails", res.data.data);
+          commit("setDatas", res.data);
         })
         .catch((err) => {
           commit("alert/setLoading", false, { root: true });
-          commit("setDetails", err.response.data.data);
+          commit("alert/setAlertError", err.response.data, { root: true });
+          dispatch("alert/removeAlertError", 0, { root: true });
         });
     },
   },

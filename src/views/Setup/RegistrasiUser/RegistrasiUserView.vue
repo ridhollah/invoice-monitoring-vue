@@ -43,6 +43,7 @@
               class="form-control"
               id="exampleFormControlInput1"
               v-model="form.outlet"
+              :disabled="$store.getters['registrasiUser/formOutlet']"
             />
           </div>
           <div class="form-group">
@@ -53,10 +54,9 @@
               style="font-size: 13px"
               v-model="form.level"
             >
-              <option value="2">Administrator</option>
-              <option value="4">Kepala Kasir</option>
-              <option value="3">Kasir</option>
-              <option value="6">Logistik</option>
+              <option :value="n.id" v-for="(n, index) in level" :key="index">
+                {{ n.nama }}
+              </option>
             </select>
           </div>
           <div class="mt-2 text-end">
@@ -84,6 +84,13 @@ export default {
         return this.$store.commit("registrasiUser/setForm", value);
       },
     },
+    level() {
+      return this.$store.state.helper.level;
+    },
+  },
+  created() {
+    this.$store.dispatch("registrasiUser/resetRegis");
+    this.$store.dispatch("helper/showUserLevel");
   },
 };
 </script>

@@ -3,13 +3,20 @@ export default {
   namespaced: true,
   state: {
     form: {},
+    level: 0,
   },
   mutations: {
+    setLevel(state, value) {
+      state.level = value;
+    },
     setForm(state, value) {
       state.form = value;
     },
   },
   actions: {
+    resetRegis({ state, rootState }) {
+      state.form.outlet = rootState.authentication.user.outlet;
+    },
     regisSave({ commit, state, dispatch, rootState }) {
       commit("alert/setLoading", true, { root: true });
       let temp = {
@@ -29,6 +36,12 @@ export default {
           commit("alert/setAlertError", err.response.data, { root: true });
           dispatch("alert/removeAlertError", 0, { root: true });
         });
+    },
+  },
+  getters: {
+    formOutlet(state) {
+      const level = [2, 3, 4, 5, 6];
+      return level.includes(state.level);
     },
   },
 };

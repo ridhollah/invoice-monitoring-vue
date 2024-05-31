@@ -7,6 +7,7 @@ import TenderListComponent from "../views/Installment/Component/TenderListCompon
 import HeaderInvoiceReturnComponent from "../views/InvoiceReturn/Component/HeaderInvoiceReturnComponent.vue";
 import PaymentInvoiceReturnComponent from "../views/InvoiceReturn/Component/PaymentInvoiceReturnComponent.vue";
 import TableTrxInvoiceReturnComponent from "../views/InvoiceReturn/Component/TableTrxInvoiceReturnComponent.vue";
+import ModalSaveReturnComponent from "../views/InvoiceReturn/Component/ModalSaveReturnComponent.vue";
 
 import HeaderInvoiceComponent from "../views/Invoice/Component/HeaderInvoiceComponent.vue";
 import PaymentComponent from "../views/Invoice/Component/PaymentComponent.vue";
@@ -15,6 +16,7 @@ import TableTrxComponent from "../views/Invoice/Component/TableTrxComponent.vue"
 import ModalCustomerComponent from "../views/Invoice/Component/ModalCustomerComponent.vue";
 
 import DetailMemberPiutangComponent from "../views/Piutang/Component/DetailMemberPiutangComponent.vue";
+import ListHutangMemberComponent from "../views/Piutang/Component/ListHutangMemberComponent.vue";
 import ModalDeleteComponent from "../views/Piutang/Component/ModalDeleteComponent.vue";
 import ModalTambahComponent from "../views/Piutang/Component/ModalTambahComponent.vue";
 
@@ -29,6 +31,7 @@ import ReceiptDetailComponent from "../views/TransaksiReceipt/Component/ReceiptD
 import ModalDescriptComponent from "../views/TransaksiReceipt/Component/ModalDescriptComponent.vue";
 import ModalEditSuratJalanComponent from "../views/TransaksiReceipt/Component/ModalEditSuratJalanComponent.vue";
 import ModalEditCustomerComponent from "../views/TransaksiReceipt/Component/ModalEditCustomerComponent.vue";
+import ModalTambahMemberComponent from "../views/TransaksiReceipt/Component/ModalTambahMemberComponent.vue";
 import ReturnDetailComponent from "../views/TransaksiReturn/Component/ReturnDetailComponent.vue";
 
 import DetailTrxLogistikComponent from "../views/Logistik/Component/DetailTrxLogistikComponent.vue";
@@ -55,6 +58,7 @@ const globalComponents = {
       "TableTrxInvoiceReturnComponent",
       TableTrxInvoiceReturnComponent
     );
+    Vue.component("ModalSaveReturnComponent", ModalSaveReturnComponent);
 
     Vue.component("HeaderInvoiceComponent", HeaderInvoiceComponent);
     Vue.component("PaymentComponent", PaymentComponent);
@@ -63,6 +67,7 @@ const globalComponents = {
     Vue.component("ModalCustomerComponent", ModalCustomerComponent);
 
     Vue.component("DetailMemberPiutangComponent", DetailMemberPiutangComponent);
+    Vue.component("ListHutangMemberComponent", ListHutangMemberComponent);
     Vue.component("ModalDeleteComponent", ModalDeleteComponent);
     Vue.component("ModalTambahComponent", ModalTambahComponent);
 
@@ -78,6 +83,7 @@ const globalComponents = {
       "ModalCetakSuratJalanComponent",
       ModalCetakSuratJalanComponent
     );
+    Vue.component("ModalTambahMemberComponent", ModalTambahMemberComponent);
 
     Vue.component("ReceiptDetailComponent", ReceiptDetailComponent);
     Vue.component("ModalDescriptComponent", ModalDescriptComponent);

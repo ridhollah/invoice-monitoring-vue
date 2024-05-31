@@ -14,8 +14,12 @@ export default {
     qc: [],
     //
     idConfirm: {},
+    level: 0,
   },
   mutations: {
+    setLevel(state, value) {
+      state.level = value;
+    },
     setSearch(state, value) {
       state.search = value;
     },
@@ -45,21 +49,20 @@ export default {
       };
       dispatch("showTrx");
     },
-    showTrx({ commit, dispatch, state, rootState }) {
+    showTrx({ commit, dispatch, state }) {
       commit("setDatas", []);
       commit("alert/setLoading", true, { root: true });
-      (state.search.outlet = rootState.authentication.user.outlet),
-        axios
-          .post("logistik/show-list-trx", state.search)
-          .then((res) => {
-            commit("alert/setLoading", false, { root: true });
-            commit("setDatas", res.data.data);
-          })
-          .catch((err) => {
-            commit("alert/setLoading", false, { root: true });
-            commit("alert/setAlertError", err.response.data, { root: true });
-            dispatch("alert/removeAlertError", 0, { root: true });
-          });
+      axios
+        .post("logistik/show-list-trx", state.search)
+        .then((res) => {
+          commit("alert/setLoading", false, { root: true });
+          commit("setDatas", res.data.data);
+        })
+        .catch((err) => {
+          commit("alert/setLoading", false, { root: true });
+          commit("alert/setAlertError", err.response.data, { root: true });
+          dispatch("alert/removeAlertError", 0, { root: true });
+        });
     },
     detailTrx({ commit, dispatch, rootState }, payload) {
       let temp = {
@@ -124,6 +127,24 @@ export default {
           commit("alert/setAlertError", err.response.data, { root: true });
           dispatch("alert/removeAlertError", 0, { root: true });
         });
+    },
+  },
+  getters: {
+    filterOutlet(state) {
+      const level = [1, 5];
+      return level.includes(state.level);
+    },
+    filterQc(state) {
+      const level = [1, 2, 6];
+      return level.includes(state.level);
+    },
+    filterConfirm(state) {
+      const level = [1, 2, 6];
+      return level.includes(state.level);
+    },
+    filterSuratJalan(state) {
+      const level = [1, 2, 6];
+      return level.includes(state.level);
     },
   },
 };

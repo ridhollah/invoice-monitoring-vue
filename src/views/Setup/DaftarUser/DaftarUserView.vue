@@ -4,6 +4,20 @@
       <h5 class="fw-500 text-uppercase">Daftar User</h5>
       <div class="divider"></div>
       <div class="d-flex align-items-end">
+        <div
+          class="form-group me-1"
+          v-show="$store.getters['daftarUser/filterOutlet']"
+        >
+          <label for="exampleFormControlInput1">Outlet</label>
+          <input
+            style="font-size: 13px"
+            type="text"
+            class="form-control"
+            id="exampleFormControlInput1"
+            placeholder="Outlet"
+            v-model="search.outlet"
+          />
+        </div>
         <div class="form-group me-1">
           <label for="exampleFormControlInput30">Pencarian</label>
           <input
@@ -65,6 +79,7 @@
                   data-bs-toggle="modal"
                   data-bs-target="#daftarUserUpdateModal"
                   @click="$store.dispatch('daftarUser/showDetailUser', n)"
+                  v-show="$store.getters['daftarUser/filterEdit']"
                 >
                   <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                 </button>
@@ -93,7 +108,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("daftarUser/showListUser");
+    this.$store.dispatch("daftarUser/resetSearch");
   },
 };
 </script>

@@ -2,7 +2,7 @@
   <div>
     <div class="card">
       <div class="card-body">
-        <h5 class="fw-500 text-uppercase">Saldo Piutang Member</h5>
+        <h5 class="fw-500 text-uppercase">Tambah Hutang Member</h5>
         <div class="divider"></div>
         <div class="d-flex align-items-end">
           <div class="form-group me-1">

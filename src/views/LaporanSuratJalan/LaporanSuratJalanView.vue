@@ -5,6 +5,20 @@
       <div class="divider"></div>
       <div class="d-flex align-items-end justify-content-between">
         <div class="d-flex align-items-end">
+          <div
+            class="form-group me-1"
+            v-show="$store.getters['laporanSuratJalan/filterOutlet']"
+          >
+            <label for="exampleFormControlInput1">Outlet</label>
+            <input
+              style="font-size: 13px"
+              type="text"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder="Outlet"
+              v-model="search.outlet"
+            />
+          </div>
           <div class="form-group me-1">
             <label for="exampleFormControlInput30">Tanggal awal</label>
             <input
@@ -65,24 +79,32 @@
             <i class="fa fa-refresh" aria-hidden="true"></i>
           </button>
         </div>
-        <div class="text-end">
-          <button
-            type="button"
-            class="btn btn-secondary btn-sm me-1"
-            @click="exportExcel"
-          >
-            <i class="fa fa-files-o icon" aria-hidden="true"></i>
-            Excel
-          </button>
-          <button
-            type="button"
-            class="btn btn-secondary btn-sm me-1"
-            @click="print"
-          >
-            <i class="fa fa-file-o icon" aria-hidden="true"></i>
-            Cetak
-          </button>
-        </div>
+      </div>
+      <div class="mt-2">
+        <button
+          type="button"
+          class="btn btn-secondary btn-sm me-1"
+          @click="exportExcel"
+        >
+          <i class="fa fa-file-o icon" aria-hidden="true"></i>
+          Excel
+        </button>
+        <button
+          type="button"
+          class="btn btn-secondary btn-sm me-1"
+          @click="exportCsv"
+        >
+          <i class="fa fa-file-o icon" aria-hidden="true"></i>
+          Csv
+        </button>
+        <button
+          type="button"
+          class="btn btn-secondary btn-sm me-1"
+          @click="print"
+        >
+          <i class="fa fa-file-o icon" aria-hidden="true"></i>
+          Pdf
+        </button>
       </div>
       <div class="table-responsive mt-2" style="height: 400px; font-size: 12px">
         <table class="table table-hover table-striped table-bordered">
@@ -151,6 +173,8 @@
   </div>
 </template>
 <script>
+import Export from "@/services/Export";
+import Print from "@/services/Print";
 export default {
   name: "LaporanSuratJalanView",
   data() {
@@ -173,80 +197,17 @@ export default {
   },
   methods: {
     print() {
-      var contents = this.$refs.cetak;
-      let frame1 = document.createElement("iframe");
-      frame1.name = "frame1";
-      frame1.style.position = "absolute";
-      frame1.style.top = "-1000000px";
-      document.body.appendChild(frame1);
-      let frameDoc = frame1.contentWindow
-        ? frame1.contentWindow
-        : frame1.contentDocument.document
-        ? frame1.contentDocument.document
-        : frame1.contentDocument;
-      frameDoc.document.open();
-      frameDoc.document.write(
-        '<html lang="en"><head><title>Print Image Maintenance</title>'
-      );
-      frameDoc.document.write(
-        // '<link rel="stylesheet" href="http://172.27.1.31:8080/css/invoice.css"/>',
-        // '<link rel="stylesheet" href="http://172.27.1.31:8080/css/bootstrap.css"/>'
-        '<link rel="stylesheet" href="http://dp.suzuya.co.id/css/bootstrap.css"/>'
-      );
-      frameDoc.document.write("</head><body>");
-      frameDoc.document.write(contents.outerHTML);
-      frameDoc.document.write("</body></html>");
-      frameDoc.document.close();
-      setTimeout(function () {
-        window.frames["frame1"].focus();
-        window.frames["frame1"].print();
-        document.body.removeChild(frame1);
-      }, 500);
-      return false;
+      Print.printLaporan(this.$refs.cetak);
+    },
+    exportCsv() {
+      Export.exportCsv(this.datas, "Laporan_SuratJalan.csv");
     },
     exportExcel() {
-      import("@/services/Export2Excel").then((excel) => {
-        const header = [
-          "No Transaksi",
-          "No Surat Jalan",
-          "Internal",
-          "Descript",
-          "Quantity",
-          "Nama Confirm",
-          "Tanggal Confirm",
-        ];
-        const field = [
-          "receipt",
-          "noshipping",
-          "internal",
-          "descript",
-          "quantity",
-          "namalengkap",
-          "tglconfirm",
-        ];
-        const data = this.formatJson(field, this.datas);
-        const tglawal = this.search.tglawal ? this.search.tglawal : "";
-        const tglakhir = this.search.tglakhir ? this.search.tglakhir : "";
-        excel.export_json_to_excel({
-          header: header,
-          data: data,
-          sheetName: `LAPORAN SURAT JALAN`,
-          filename: `LAPORAN SURAT JALAN ${tglawal} - ${tglakhir}`,
-          autoWidth: true,
-          bookType: "xlsx",
-        });
-      });
-    },
-    formatJson(filterData, jsonData) {
-      return jsonData.map((v) =>
-        filterData.map((j) => {
-          return v[j];
-        })
-      );
+      Export.exportExcels(this.datas);
     },
   },
   created() {
-    this.$store.dispatch("laporanSuratJalan/laporan");
+    this.$store.dispatch("laporanSuratJalan/resetLaporan");
   },
 };
 </script>

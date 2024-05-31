@@ -20,18 +20,24 @@ export default {
     detailTrxDelete: {},
     // ======== DAFTAR MEMBER PIUTANG ================
     searchDatas: {
-      count: 10,
+      count: 0,
     },
     datasPiutangMember: [],
+    level: 0,
+    detailTrxMember: {},
+    detailTrxMemberByPayment: {},
   },
   mutations: {
+    setLevel(state, value) {
+      state.level = value;
+    },
     reset(state) {
       state.search = {};
       state.member = [];
     },
     resetDatas(state) {
       state.searchDatas = {
-        count: 10,
+        count: 0,
       };
       state.datasPiutangMember = [];
     },
@@ -84,8 +90,22 @@ export default {
     setDatasPiutangMember(state, value) {
       state.datasPiutangMember = value;
     },
+    // ========== DAFTAR TRX MEMBER PIUTANG =============
+    setDetailTrxMember(state, value) {
+      state.detailTrxMember = value;
+    },
+    setDetailTrxMemberByPayment(state, value) {
+      state.detailTrxMemberByPayment = value;
+    },
   },
   actions: {
+    resetSearchDatasMember({ state, rootState, dispatch }) {
+      state.searchDatas = {
+        count: 100,
+        outlet: rootState.authentication.user.outlet,
+      };
+      dispatch("showDatasPiutangMember");
+    },
     // ======== TAMBAH MEMBER PIUTANG =============
     searchMember({ commit, state, dispatch }) {
       commit("alert/setLoading", true, { root: true });
@@ -176,10 +196,48 @@ export default {
           commit("setDatasPiutangMember", err.response.data.data);
         });
     },
+    // ======== DAFTAR TRX MEMBER PIUTANG ===============
+    showDetailTrxMember({ commit, dispatch }, payload) {
+      commit("alert/setLoading", true, { root: true });
+      axios
+        .post("piutang/piutang-show-detail-trx-member", payload)
+        .then((res) => {
+          commit("alert/setLoading", false, { root: true });
+          commit("setDetailTrxMember", res.data.data);
+          commit("setDetailTrxMemberByPayment", {});
+        })
+        .catch((err) => {
+          commit("alert/setLoading", false, { root: true });
+          commit("alert/setAlertError", err.response.data, { root: true });
+          dispatch("alert/removeAlertError", 0, { root: true });
+          commit("setDetailTrxMember", err.response.data.data);
+          commit("setDetailTrxMemberByPayment", {});
+        });
+    },
+    showDetailTrxMemberByPayment({ commit, dispatch }, payload) {
+      commit("alert/setLoading", true, { root: true });
+      axios
+        .post("piutang/piutang-show-detail-trx-member-byPayment", payload)
+        .then((res) => {
+          commit("alert/setLoading", false, { root: true });
+          commit("setDetailTrxMemberByPayment", res.data.data);
+        })
+        .catch((err) => {
+          commit("alert/setLoading", false, { root: true });
+          commit("alert/setAlertError", err.response.data, { root: true });
+          dispatch("alert/removeAlertError", 0, { root: true });
+          commit("setDetailTrxMemberByPayment", err.response.data.data);
+        });
+    },
   },
   getters: {
+    filterOutlet(state) {
+      const level = [1, 5];
+      return level.includes(state.level);
+    },
     countMembers(state) {
       return state.members.length > 0 ? state.members.length : 0;
     },
+    // lengthInvoiceReturn(state) {},
   },
 };

@@ -26,6 +26,17 @@ export default {
   actions: {
     setLevel({ commit, state }) {
       commit("transaksiReceipt/setLevel", state.user.level, { root: true });
+      commit("transaksiReturn/setLevel", state.user.level, { root: true });
+      commit("laporanSales/setLevel", state.user.level, { root: true });
+      commit("laporanReturn/setLevel", state.user.level, { root: true });
+      commit("laporanCicilan/setLevel", state.user.level, { root: true });
+      commit("invoice/setLevel", state.user.level, { root: true });
+      commit("invoiceReturn/setLevel", state.user.level, { root: true });
+      commit("laporanSuratJalan/setLevel", state.user.level, { root: true });
+      commit("logistik/setLevel", state.user.level, { root: true });
+      commit("daftarUser/setLevel", state.user.level, { root: true });
+      commit("registrasiUser/setLevel", state.user.level, { root: true });
+      commit("piutang/setLevel", state.user.level, { root: true });
     },
     Login({ commit, state, dispatch }) {
       commit("alert/setLoading", true, { root: true });

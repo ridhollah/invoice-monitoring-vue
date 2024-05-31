@@ -23,7 +23,9 @@ export default {
     updateShipping: {},
     updateCustomer: {},
     level: 0,
-    testLevel: [1, 2],
+    //
+    searchMember: {},
+    member: {},
   },
   mutations: {
     setLevel(state, value) {
@@ -54,6 +56,13 @@ export default {
     resetUpdate(state) {
       state.updateCustomer = {};
       state.updateShipping = {};
+    },
+    // member
+    setSearchMember(state, value) {
+      state.searchMember = value;
+    },
+    setMember(state, value) {
+      state.member = value;
     },
   },
   actions: {
@@ -129,21 +138,47 @@ export default {
           commit("alert/setLoading", false, { root: true });
         });
     },
+    showSearchMember({ commit, state, dispatch }) {
+      axios
+        .post("transaksi/transaksi-search-member", state.searchMember)
+        .then((res) => {
+          commit("alert/setLoading", false, { root: true });
+          commit("alert/setAlertSuccess", res.data, { root: true });
+          dispatch("alert/removeAlertSuccess", 1, { root: true });
+          commit("setMember", res.data.data);
+        })
+        .catch((err) => {
+          commit("alert/setLoading", false, { root: true });
+          commit("alert/setAlertError", err.response.data, { root: true });
+          dispatch("alert/removeAlertError", 0, { root: true });
+          commit("setMember", err.response.data.data);
+        });
+    },
+    saveMember({ commit, state, dispatch, rootState }) {
+      state.member.search = state.searchMember;
+      state.member.iduser = rootState.authentication.user.id;
+      state.member.outlet = rootState.authentication.user.outlet;
+      axios
+        .post("transaksi/transaksi-save-member", state.member)
+        .then((res) => {
+          commit("alert/setLoading", false, { root: true });
+          commit("alert/setAlertSuccess", res.data, { root: true });
+          dispatch("alert/removeAlertSuccess", 1, { root: true });
+          dispatch("showReceipt");
+        })
+        .catch((err) => {
+          commit("alert/setLoading", false, { root: true });
+          commit("alert/setAlertError", err.response.data, { root: true });
+          dispatch("alert/removeAlertError", 0, { root: true });
+        });
+    },
   },
   getters: {
     filterOutlet(state) {
-      const level = [1, 2];
+      const level = [1, 5];
       return level.includes(state.level);
     },
-    buttonBayarCicilan(state) {
-      const level = [1, 2, 3, 4];
-      return level.includes(state.level);
-    },
-    buttonPrintInvoice(state) {
-      const level = [1, 2, 3, 4];
-      return level.includes(state.level);
-    },
-    buttonPrintSuratJalan(state) {
+    buttonAksi(state) {
       const level = [1, 2, 3, 4];
       return level.includes(state.level);
     },

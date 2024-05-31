@@ -12,18 +12,23 @@ import InstallmentView from "../views/Installment/InstallmentView.vue";
 import InstallmentTrxView from "../views/Installment/InstallmentTrxView.vue";
 import Preview from "../views/Printing/Preview.vue";
 import DataTransaksiReceipt from "../views/TransaksiReceipt/TransaksiReceiptView.vue";
-import LaporanTransaksiView from "@/views/Laporan/LaporanTransaksi/LaporanTransaksiView.vue";
-import LaporanPembayaranView from "@/views/Laporan/LaporanPembayaran/LaporanPembayaranView.vue";
-import LaporanBarangView from "@/views/Laporan/LaporanBarang/LaporanBarangView.vue";
-import LaporanSalesView from "@/views/Laporan/LaporanSalesPerson/LaporanSalesView";
-import LaporanKasirView from "@/views/Laporan/LaporanKasir/LaporanKasirView";
 import Logistik from "@/views/Logistik/LogistikView.vue";
 import RegistrasiUserView from "@/views/Setup/RegistrasiUser/RegistrasiUserView.vue";
 import DaftarUser from "@/views/Setup/DaftarUser/DaftarUserView.vue";
-import RoleUserView from "@/views/Setup/RoleUser/RoleUserView.vue";
-import LaporanSuratJalanView from "@/views/Laporan/LaporanSuratJalan/LaporanSuratJalanView.vue";
 import PreviewReturn from "@/views/Printing/PreviewReturn.vue";
 import TransaksiReturnView from "@/views/TransaksiReturn/TransaksiReturnView.vue";
+// LAPORAN =======================
+import LaporanSalesByProdukView from "@/views/LaporanSales/LaporanSalesByProdukView.vue";
+import LaporanSalesByPamentView from "@/views/LaporanSales/LaporanSalesByPamentView.vue";
+import LaporanSalesByPersonView from "@/views/LaporanSales/LaporanSalesByPersonView.vue";
+import LaporanSalesKasirView from "@/views/LaporanSales/LaporanSalesKasirView.vue";
+import LaporanSuratJalanView from "@/views/LaporanSuratJalan/LaporanSuratJalanView.vue";
+import LaporanSalesByMarchineView from "@/views/LaporanSales/LaporanSalesByMarchineView.vue";
+import LaporanReturnByProdukView from "@/views/LaporanReturn/LaporanReturnByProdukView.vue";
+import LaporanReturnByPaymentView from "@/views/LaporanReturn/LaporanReturnByPaymentView.vue";
+import LaporanCicilanByPaymentView from "@/views/LaporanCicilan/LaporanCicilanByPaymentView.vue";
+import LaporanSalesCashCountView from "@/views/LaporanSales/LaporanSalesCashCountView.vue";
+import PrintLabelBarcodeView from "@/views/Setup/PrintLabelBarcode/PrintLabelBarcodeView.vue";
 
 Vue.use(VueRouter);
 
@@ -50,6 +55,7 @@ const routes = [
         name: "dashboard",
         component: DashboardView,
       },
+      // BUAT INVOICE ====================
       {
         path: "/invoice-sales",
         name: "invoice",
@@ -60,6 +66,7 @@ const routes = [
         name: "invoiceReturn",
         component: InvoiceReturnView,
       },
+      // PREVIEW PRINT =================
       {
         path: "/preview/:Receipt",
         name: "preview",
@@ -70,6 +77,7 @@ const routes = [
         name: "preview-return",
         component: PreviewReturn,
       },
+      // MEMBER PIUTANG =======================
       {
         path: "/member-piutang",
         name: "member-piutang",
@@ -80,6 +88,7 @@ const routes = [
         name: "daftar-member-piutang",
         component: DaftarMemberPiutangView,
       },
+      // TRANSAKSI PEMBAYRAN CICILAN ===================
       {
         path: "/cicilan",
         name: "cicilan",
@@ -90,6 +99,7 @@ const routes = [
         name: "cicilan-transaksi",
         component: InstallmentTrxView,
       },
+      // DOKUMEN =========================
       {
         path: "/data-transaksi-receipt",
         name: "data-transaksi-receipt",
@@ -100,41 +110,7 @@ const routes = [
         name: "data-transaksi-return",
         component: TransaksiReturnView,
       },
-      {
-        path: "/laporan-receipt",
-        name: "laporan-receipt",
-        component: LaporanTransaksiView,
-      },
-      {
-        path: "/laporan-transaksi",
-        name: "laporan-transaksi",
-        component: LaporanPembayaranView,
-      },
-      {
-        path: "/laporan-barang",
-        name: "laporan-barang",
-        component: LaporanBarangView,
-      },
-      {
-        path: "/laporan-sales",
-        name: "laporan-sales",
-        component: LaporanSalesView,
-      },
-      {
-        path: "/laporan-kasir",
-        name: "laporan-kasir",
-        component: LaporanKasirView,
-      },
-      {
-        path: "/laporan-surat-jalan",
-        name: "laporan-surat-jalan",
-        component: LaporanSuratJalanView,
-      },
-      {
-        path: "/logistik",
-        name: "logistik",
-        component: Logistik,
-      },
+      // SETUP =====================
       {
         path: "/registrasi-user",
         name: "registrasi-user",
@@ -146,9 +122,68 @@ const routes = [
         component: DaftarUser,
       },
       {
-        path: "/role-user",
-        name: "role-user",
-        component: RoleUserView,
+        path: "/print-label-barcode",
+        name: "print-label-barcode",
+        component: PrintLabelBarcodeView,
+      },
+      // LAPORAN SALES =================
+      {
+        path: "/laporan-sales-by-produk",
+        name: "laporan-sales-by-produk",
+        component: LaporanSalesByProdukView,
+      },
+      {
+        path: "/laporan-sales-by-kasir",
+        name: "laporan-sales-by-kasir",
+        component: LaporanSalesKasirView,
+      },
+      {
+        path: "/laporan-sales-by-payment",
+        name: "laporan-sales-by-payment",
+        component: LaporanSalesByPamentView,
+      },
+      {
+        path: "/laporan-sales-by-person",
+        name: "laporan-sales-by-person",
+        component: LaporanSalesByPersonView,
+      },
+      {
+        path: "/laporan-cash-count",
+        name: "laporan-cash-count",
+        component: LaporanSalesCashCountView,
+      },
+      {
+        path: "/laporan-sales-by-marchine",
+        name: "laporan-sales-by-marchine",
+        component: LaporanSalesByMarchineView,
+      },
+      // LAPORAN SURAT JALAN ============
+      {
+        path: "/laporan-surat-jalan",
+        name: "laporan-surat-jalan",
+        component: LaporanSuratJalanView,
+      },
+      {
+        path: "/logistik",
+        name: "logistik",
+        component: Logistik,
+      },
+      // LAPORAN RETURN =======================
+      {
+        path: "/laporan-return-by-produk",
+        name: "laporan-return-by-produk",
+        component: LaporanReturnByProdukView,
+      },
+      {
+        path: "/laporan-return-by-payment",
+        name: "laporan-return-by-payment",
+        component: LaporanReturnByPaymentView,
+      },
+      // LAPORAN CICILAN ====================
+      {
+        path: "/laporan-cicilan-by-payment",
+        name: "laporan-cicilan-by-payment",
+        component: LaporanCicilanByPaymentView,
       },
     ],
   },
@@ -170,7 +205,7 @@ router.beforeEach((to, from, next) => {
     return next({ path: "/login" });
   } else if (isGuest && isLoggedIn) {
     if (level == 5) {
-      return next({ path: "/laporan-barang" });
+      return next({ path: "/laporan-sales-by-produk" });
     } else if (level == 6) {
       return next({ path: "/logistik" });
     } else {

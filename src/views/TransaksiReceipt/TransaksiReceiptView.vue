@@ -6,11 +6,7 @@
       <div class="d-flex align-items-end">
         <div
           class="form-group me-1"
-          v-show="
-            $store.state.transaksiReceipt.testLevel.includes(
-              $store.state.authentication.user.level
-            )
-          "
+          v-show="$store.getters['transaksiReceipt/filterOutlet']"
         >
           <label for="exampleFormControlInput30">Outlet</label>
           <input
@@ -20,7 +16,6 @@
             id="exampleFormControlInput30"
             placeholder="Kode Outlet"
             v-model="search.outlet"
-            @keydown.enter="$store.dispatch('transaksiReceipt/showReceipt')"
           />
         </div>
         <div class="form-group me-1">
@@ -32,7 +27,6 @@
             id="exampleFormControlInput30"
             placeholder="No Trx / Customer"
             v-model="search.search"
-            @keydown.enter="$store.dispatch('transaksiReceipt/showReceipt')"
           />
         </div>
         <div class="form-group me-1">
@@ -42,7 +36,6 @@
             class="form-select"
             aria-label="Default select example"
             v-model="search.count"
-            @change="$store.dispatch('transaksiReceipt/showReceipt')"
           >
             <option value="100">100</option>
             <option value="300">300</option>
@@ -57,7 +50,6 @@
             class="form-select"
             aria-label="Default select example"
             v-model="search.status"
-            @change="$store.dispatch('transaksiReceipt/showReceipt')"
           >
             <option value="99">Belum Lunas</option>
             <option value="1">Lunas</option>
@@ -109,6 +101,7 @@
               <th style="width: 12%">Total Bayar</th>
               <th style="width: 12%">Total Sisa</th>
               <th style="width: 12%">Customer</th>
+              <th style="width: 10%">Member</th>
               <th style="width: 5%">Status Trx</th>
               <th style="width: 10%">No S.Jalan</th>
               <th style="width: 10%">Status S.Jalan</th>
@@ -136,6 +129,9 @@
                 {{ n.customer }}
               </td>
               <td class="text-center">
+                {{ n.memberno }}
+              </td>
+              <td class="text-center">
                 <span class="badge" :class="n.statuscolor">{{
                   n.statusname
                 }}</span>
@@ -149,7 +145,10 @@
                 }}</span>
               </td>
               <td class="text-center">
-                <div class="dropdown">
+                <div
+                  class="dropdown"
+                  v-show="$store.getters['transaksiReceipt/buttonAksi']"
+                >
                   <button
                     class="btn btn-primary dropdown-toggle btn-sm"
                     type="button"
@@ -164,12 +163,7 @@
                     class="dropdown-menu"
                     aria-labelledby="dropdownMenuButton1"
                   >
-                    <li
-                      v-if="n && n.status != 1"
-                      v-show="
-                        $store.getters['transaksiReceipt/buttonBayarCicilan']
-                      "
-                    >
+                    <li v-if="n && n.status != 1">
                       <a
                         class="btn btn-primary btn-sm dropdown-item"
                         @click="pelunasan(n)"
@@ -183,9 +177,6 @@
                         data-bs-toggle="modal"
                         data-bs-target="#invoiceCetak"
                         @click="cetakInvoice(n)"
-                        v-show="
-                          $store.getters['transaksiReceipt/buttonPrintInvoice']
-                        "
                         ><i class="fa fa-file-o me-2" aria-hidden="true"></i
                         >Cetak Invoice</a
                       >
@@ -196,14 +187,22 @@
                         data-bs-toggle="modal"
                         data-bs-target="#suratjalanCetak"
                         @click="cetakShipping(n)"
-                        href=""
-                        v-show="
-                          $store.getters[
-                            'transaksiReceipt/buttonPrintSuratJalan'
-                          ]
-                        "
                         ><i class="fa fa-file-o me-2" aria-hidden="true"></i
                         >Cetak Surat Jalan</a
+                      >
+                    </li>
+                    <li v-if="n.memberno == '' && n.ttlsisa != 0">
+                      <a
+                        class="btn btn-primary btn-sm dropdown-item"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalTambahMember"
+                        @click="
+                          $store.commit('transaksiReceipt/setSearchMember', {
+                            receipt: n.receipt,
+                          })
+                        "
+                        ><i class="fa fa-file-o me-2" aria-hidden="true"></i
+                        >Tambah Member</a
                       >
                     </li>
                   </ul>
@@ -220,6 +219,7 @@
     <ModalDescriptComponent />
     <ModalCetakInvoiceComponent />
     <ModalCetakSuratJalanComponent />
+    <ModalTambahMemberComponent />
   </div>
 </template>
 <script>

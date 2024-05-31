@@ -6,6 +6,20 @@
         <div class="divider"></div>
         <div class="d-flex justify-content-between">
           <div class="d-lg-flex align-items-end">
+            <div
+              class="form-group me-1"
+              v-show="$store.getters['invoice/filterOutlet']"
+            >
+              <label for="exampleFormControlInput1">Outlet</label>
+              <input
+                style="font-size: 13px"
+                type="text"
+                class="form-control"
+                id="exampleFormControlInput1"
+                placeholder="Outlet"
+                v-model="form.outlet"
+              />
+            </div>
             <div class="form-group me-1">
               <label for="exampleFormControlInput1">Pencarian</label>
               <input
@@ -15,7 +29,6 @@
                 id="exampleFormControlInput1"
                 placeholder="No transaksi"
                 v-model="form.nosales"
-                @keydown.enter="$store.dispatch('invoice/searchNewTrx')"
               />
             </div>
             <button
@@ -85,7 +98,7 @@ export default {
     },
   },
   created() {
-    this.$store.commit("invoice/resetNewTrx");
+    this.$store.dispatch("invoice/resetForm");
   },
 };
 </script>

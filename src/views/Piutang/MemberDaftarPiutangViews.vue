@@ -1,9 +1,23 @@
 <template>
   <div class="card">
     <div class="card-body">
-      <h5 class="fw-500 text-uppercase">Daftar Piutang Member</h5>
+      <h5 class="fw-500 text-uppercase">Daftar Hutang Member</h5>
       <div class="divider"></div>
       <div class="d-flex align-items-end">
+        <div
+          class="form-group me-1"
+          v-show="$store.getters['piutang/filterOutlet']"
+        >
+          <label for="exampleFormControlInput1">Outlet</label>
+          <input
+            style="font-size: 13px"
+            type="text"
+            class="form-control"
+            id="exampleFormControlInput1"
+            placeholder="Outlet"
+            v-model="searchDatas.outlet"
+          />
+        </div>
         <div class="form-group me-1">
           <label for="exampleFormControlInput30">Pencarian</label>
           <input
@@ -13,7 +27,6 @@
             id="exampleFormControlInput30"
             placeholder="No Hp / Member / Nama"
             v-model="searchDatas.search"
-            @keydown.enter="$store.dispatch('piutang/showDatasPiutangMember')"
           />
         </div>
         <div class="form-group me-1">
@@ -23,7 +36,6 @@
             class="form-select"
             v-model="searchDatas.count"
             aria-label="Default select example"
-            @change="$store.dispatch('piutang/showDatasPiutangMember')"
           >
             <option value="10">10</option>
             <option value="50">50</option>
@@ -41,7 +53,7 @@
         <button
           type="button"
           class="btn btn-secondary btn-sm me-1"
-          @click="reset"
+          @click="$store.dispatch('piutang/resetSearchDatasMember')"
         >
           <i class="fa fa-refresh" aria-hidden="true"></i>
         </button>
@@ -50,10 +62,11 @@
         <table class="table table-hover table-striped table-bordered">
           <thead>
             <tr class="text-center">
-              <th style="width: 20%">No Member</th>
-              <th style="width: 20%">No Handphone</th>
+              <th style="width: 10%">No Member</th>
+              <th style="width: 10%">No Handphone</th>
               <th style="width: 40%">Nama</th>
-              <th style="width: 20%">Piutang</th>
+              <th style="width: 20%">Total Hutang</th>
+              <th style="width: 10%">Aksi</th>
             </tr>
           </thead>
           <tbody>
@@ -62,11 +75,23 @@
               <td>{{ n.nohp }}</td>
               <td>{{ n.name }}</td>
               <td>{{ n.creditlimit | Rupiah2 }}</td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-primary btn-sm"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modalListHutangMember"
+                  @click="$store.dispatch('piutang/showDetailTrxMember', n)"
+                >
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
+    <ListHutangMemberComponent />
   </div>
 </template>
 <script>
@@ -85,14 +110,9 @@ export default {
       },
     },
   },
-  methods: {
-    reset() {
-      this.$store.commit("piutang/resetDatas");
-      this.$store.dispatch("piutang/showDatasPiutangMember");
-    },
-  },
+
   created() {
-    this.reset();
+    this.$store.dispatch("piutang/resetSearchDatasMember");
   },
 };
 </script>
