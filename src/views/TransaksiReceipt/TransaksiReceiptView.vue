@@ -191,7 +191,13 @@
                         >Cetak Surat Jalan</a
                       >
                     </li>
-                    <li v-if="n.memberno == '' && n.ttlsisa != 0">
+                    <li
+                      v-if="
+                        n.memberno == '' &&
+                        n.ttlsisa != 0 &&
+                        $store.getters['transaksiReceipt/buttonTambahMember']
+                      "
+                    >
                       <a
                         class="btn btn-primary btn-sm dropdown-item"
                         data-bs-toggle="modal"

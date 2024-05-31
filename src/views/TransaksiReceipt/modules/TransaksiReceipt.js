@@ -190,5 +190,9 @@ export default {
       const level = [1, 2, 3, 4];
       return level.includes(state.level);
     },
+    buttonTambahMember(state) {
+      const level = [1];
+      return level.includes(state.level);
+    },
   },
 };
